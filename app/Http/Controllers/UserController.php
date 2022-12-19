@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Luilliarcec\LaravelUsernameGenerator\Facades\Username;
-use Illuminate\Support\Str;
+// use Luilliarcec\LaravelUsernameGenerator\Facades\Username;
+use \Cviebrock\EloquentSluggable\Services\SlugService;
 
 class UserController extends Controller
 {
@@ -34,11 +34,10 @@ class UserController extends Controller
     {
         $validatedData = $request->validate([
             'name' => 'required',
-            'email' => 'required|email:rfc,dns|unique:users',
+            'username' => 'unique:users',
             'password' => 'required|min:6'
         ]);
 
-        $validatedData['username'] = Username::make($validatedData['email']);
         $validatedData['password'] = bcrypt($validatedData['password']);
         $validatedData['is_admin'] = 'asmen';
 
@@ -51,11 +50,10 @@ class UserController extends Controller
     {
         $validatedData = $request->validate([
             'name' => 'required',
-            'email' => 'required|email:rfc,dns|unique:users',
+            'username' => 'unique:users',
             'password' => 'required|min:6'
         ]);
 
-        $validatedData['username'] = Username::make($validatedData['email']);
         $validatedData['password'] = bcrypt($validatedData['password']);
 
 

@@ -8,10 +8,12 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Luilliarcec\LaravelUsernameGenerator\Facades\Username;
+use Cviebrock\EloquentSluggable\Sluggable;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, Sluggable;
+
 
     /**
      * The attributes that are mass assignable.
@@ -62,4 +64,13 @@ class User extends Authenticatable
     //         ->withTimestamps();
     //     // return $this->belongsToMany(Category::class, 'categorys_users', 'category_id', 'user_id');
     // }
+
+    public function sluggable(): array
+    {
+        return [
+            'username' => [
+                'source' => 'name'
+            ]
+        ];
+    }
 }

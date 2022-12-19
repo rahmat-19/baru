@@ -40,7 +40,6 @@
                             <thead>
                                 <tr>
                                     <th>Name</th>
-                                    <th>Email</th>
                                     <th>Username</th>
                                     <th>Pangkat</th>
                                     <th>Aksi</th>
@@ -58,7 +57,6 @@
                                 @foreach($datas as $data)
                                 <tr>
                                     <td>{{$data->name}}</td>
-                                    <td>{{$data->email}}</td>
                                     <td>{{$data->username}}</td>
                                     <td>{{$data->is_admin}}</td>
                                     <td>

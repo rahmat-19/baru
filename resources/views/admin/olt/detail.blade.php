@@ -43,6 +43,7 @@
                                     <th scope="col">Name</th>
                                     <th scope="col">Daerah</th>
                                     <th scope="col">Port</th>
+                                    <th scope="col">Slot</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -50,12 +51,9 @@
                                     <td>{{$data->hostname}}</td>
                                     <td>{{$data->stos->slug}}</td>
                                     <td>{{$data->port}}</td>
+                                    <td>{{$data->slot}}</td>
                                 </tr>
-                                <tr class="text-center">
-                                    <td colspan="3">
-                                        <p class="text-center fw-bolder">Keterangan :</p>
-                                    </td>
-                                </tr>
+
                             </tbody>
                         </table>
                     </div>
@@ -87,30 +85,30 @@
                                 <form action="{{Route('port.edit', $port->id)}}" method="post">
                                     @method('put')
                                     @csrf
-                                    <button type="submit" class="btn btn-circle @if($port->penggunaan) btn-success @else btn-danger  @endif">
+                                    <button type="submit" class="btn btn-circle @if($port->penggunaan) btn-success @else btn-primary  @endif">
                                         @if($port->penggunaan) v @else x @endif
                                     </button>
                                 </form>
                                 @else
-                                <button type="button" class="btn btn-circle @if($port->penggunaan) btn-success @else btn-danger disabled  @endif edit" data-id="{{$port->id}}">
+                                <button type="button" class="btn btn-circle @if($port->penggunaan) btn-success @else btn-primary disabled  @endif edit" data-id="{{$port->id}}">
                                     @if($port->penggunaan) v @else x @endif
                                 </button>
                                 @endcan
 
                             </div>
                             @endforeach
+                            @can('asmen')
                             <div class="p-2 bd-highlight shadow-sm rounded text-center px-4 py-2 my-2">
                                 <div>
                                     <p class="fw-bold">Tambah Port</p>
                                 </div>
-                                @can('asmen')
-                                <button type="submit" class="btn btn-circle @if($port->penggunaan) btn-success @else btn-danger  @endif" data-bs-toggle="modal" data-bs-target="#addPort">
+                                <button type="submit" class="btn btn-circle @if($port->penggunaan) btn-warning @else btn-danger  @endif" data-bs-toggle="modal" data-bs-target="#addPort">
                                     +
                                 </button>
 
-                                @endcan
 
                             </div>
+                            @endcan
                         </div>
                     </div>
 
@@ -123,32 +121,79 @@
 </div>
 
 <div class="modal fade" id="modal-edit" tabindex="-1" aria-labelledby="modal-editLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="modal-editLabel">Buat Pengajuan</h5>
+                <h5 class="modal-title" id="modal-editLabel">Buat Pengajuan <span id="idport"></span></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form action="{{Route('pengajuan.port')}}" method="post" id="modal_pengajuan">
                     @csrf
-                    <h5>Anda yakin untuk memnita pengajuan untuk port <span id="idport"></span></h5>
-                    <div class="mb-3">
-                        <label for="JenisPembangunan" class="form-label">Jenis Pembangunan</label>
-                        <select class="form-select" id="JenisPembangunan" name="jenisPembangunan" aria-label="Default select example" required>
-                            <option selected>Open this select menu</option>
-                            <option value="ODP">ODP</option>
-                            <option value="ODC">ODC</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="label" class="form-label">Label ODC/ODP</label>
-                        <input type="text" required value="{{old('label')}}" class="form-control @error('label') is-invalid @enderror" name="label" id="label" placeholder="exp : GPON00-D2-CAU-3">
-                        @error('label')
-                        <div id="label" class="invalid-feedback mb-3">
-                            {{$message}}
+                    <div class="row">
+                        <div class="col">
+                            <div class="mb-3">
+                                <label for="usulan" class="form-label">Usuelan</label>
+                                <input type="text" required value="{{old('usulan')}}" class="form-control  @error('usulan') is-invalid @enderror" name="usulan" id="usulan" placeholder="Usulan">
+                            </div>
+                            <div class="mb-3">
+                                <label for="JenisPembangunan" class="form-label">Jenis Pembangunan</label>
+                                <select class="form-select" id="JenisPembangunan" name="jenisPembangunan" aria-label="Default select example" required>
+                                    <option selected>Open this select menu</option>
+                                    <option value="ODP">ODP</option>
+                                    <option value="ODC">ODC</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="label" class="form-label">Label ODC/ODP</label>
+                                <input type="text" required value="{{old('label')}}" class="form-control @error('label') is-invalid @enderror" name="label" id="label" placeholder="exp : GPON00-D2-CAU-3">
+                                @error('label')
+                                <div id="label" class="invalid-feedback mb-3">
+                                    {{$message}}
+                                </div>
+                                @enderror
+                            </div>
                         </div>
-                        @enderror
+                        <div class="col">
+                            <div class="mb-3">
+                                <label for="distribusi" class="form-label">Distribusi</label>
+                                <input type="text" required value="{{old('distribusi')}}" class="form-control @error('distribusi') is-invalid @enderror" name="distribusi" id="distribusi" placeholder="Distribusi">
+                                @error('distribusi')
+                                <div id="distribusi" class="invalid-feedback mb-3">
+                                    {{$message}}
+                                </div>
+                                @enderror
+                            </div>
+                            <div class="mb-3">
+                                <label for="alamat" class="form-label">Alamat</label>
+                                <input type="text" required value="{{old('alamat')}}" class="form-control @error('alamat') is-invalid @enderror" name="alamat" id="alamat" placeholder="Jl. Pegangsaan Timur">
+                                @error('alamat')
+                                <div id="alamat" class="invalid-feedback mb-3">
+                                    {{$message}}
+                                </div>
+                                @enderror
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <label for="jumlahODP" class="form-label">Jumlah ODP</label>
+                                    <input type="number" required value="{{old('jumlahODP')}}" class="form-control @error('jumlahODP') is-invalid @enderror" name="jumlahODP" id="jumlahODP">
+                                    @error('jumlahODP')
+                                    <div id="jumlahODP" class="invalid-feedback mb-3">
+                                        {{$message}}
+                                    </div>
+                                    @enderror
+                                </div>
+                                <div class="col">
+                                    <label for="slot" class="form-label">Slot</label>
+                                    <input type="number" required value="{{old('slot')}}" class="form-control @error('slot') is-invalid @enderror" name="slot" id="slot">
+                                    @error('slot')
+                                    <div id="slot" class="invalid-feedback mb-3">
+                                        {{$message}}
+                                    </div>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
 

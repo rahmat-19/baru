@@ -48,9 +48,7 @@
                                     <th>Hostname</th>
                                     <th>STO</th>
                                     <th>Port</th>
-                                    @cannot('asmen')
-                                    <th>Keterangn</th>
-                                    @endcannot
+                                    <th>Slot</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -61,9 +59,7 @@
                                     <td>{{$data->hostname}}</td>
                                     <td>{{$data->stos->slug}}</td>
                                     <td>{{$data->port}}</td>
-                                    @cannot('asmen')
-                                    <td>{!! $data->keterangan !!}</td>
-                                    @endcannot
+                                    <td>{{$data->slot}}</td>
                                     <td class="text-center">
                                         @can('asmen')
                                         <form action="{{Route('olt.destroy', $data->id)}}" method="post" class="d-inline">
@@ -97,7 +93,20 @@
             <div class="card shadow mb-4">
                 <!-- Card Header - Dropdown -->
                 <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">Add Olt</h6>
+                    <div class="row row justify-content-between">
+
+                        <div class="col align-self-center">
+                            <h6 class="m-0 font-weight-bold text-primary">Add Olt</h6>
+                        </div>
+                        <div class="col align-self-center text-end">
+                            <button type="submit" class="btn btn-success btn-icon-split" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                <span class="icon text-white-50">
+                                    <i class="fas fa-info-circle"></i>
+                                </span>
+                                <span class="text">Import</span>
+                            </button>
+                        </div>
+                    </div>
                 </div>
                 <!-- Card Body -->
                 <div class="card-body">
@@ -122,6 +131,15 @@
                                     <option value={{$sto->id}}>{{$sto->kota}}</option>
                                     @endforeach
                                 </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="port" class="form-label">Slot</label>
+                                <input type="number" class="form-control @error('slot') is-invalid @enderror" id="slot" name="slot" placeholder="Jumlah Slot">
+                                @error('slot')
+                                <div id="slot" class="invalid-feedback mb-3">
+                                    {{$message}}
+                                </div>
+                                @enderror
                             </div>
                             <div class="mb-3">
                                 <label for="port" class="form-label">Jumlah Port</label>
@@ -151,6 +169,32 @@
         @endcan
 
     </div>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{Route('sto.import')}}" method="post" enctype="multipart/form-data">
+                        @csrf
+                        <div class="mb-3">
+                            <label for="formFile" class="form-label">Import File Excel</label>
+                            <input class="form-control" type="file" name="file" id="formFile">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancle</button>
+                            <button type="submit" class="btn btn-primary">Import</button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
 
 
 </div>

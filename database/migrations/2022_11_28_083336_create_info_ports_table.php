@@ -15,6 +15,11 @@ class CreateInfoPortsTable extends Migration
     {
         Schema::create('info_ports', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('id_port')->references('id')->on('olt_ports')->onDelete('cascade');
+            $table->string('waspang');
+            $table->enum('jenisPembangunan', ['ODC', 'ODP']);
+            $table->string('label');
+            $table->text('keterangan')->nullable();
             $table->timestamps();
         });
     }

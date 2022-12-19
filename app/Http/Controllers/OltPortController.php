@@ -37,7 +37,7 @@ class OltPortController extends Controller
                 ]);
             }
 
-            return redirect(Route('pengajuan.index'));
+            return redirect(Route('olt.show', $olt->id));
         }
     }
 }

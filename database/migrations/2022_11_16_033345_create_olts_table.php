@@ -18,7 +18,7 @@ class CreateOltsTable extends Migration
             $table->foreignId('id_sto');
             $table->string('hostname');
             $table->integer('port');
-            $table->text('keterangan')->nullable();
+            $table->integer('slot');
             $table->timestamps();
         });
     }

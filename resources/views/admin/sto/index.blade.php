@@ -63,54 +63,8 @@
 
         </div>
 
-        @can('asmen')
-        <!-- Donut Chart -->
-        <div class="col-xl-4 col-lg-5">
-            <div class="card shadow mb-4">
-                <!-- Card Header - Dropdown -->
-                <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">Add STO</h6>
-                </div>
-                <!-- Card Body -->
-                <div class="card-body">
-                    <div class="">
-                        <button type="submit" class="btn btn-success btn-icon-split" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                            <span class="icon text-white-50">
-                                <i class="fas fa-info-circle"></i>
-                            </span>
-                            <span class="text">Import STO</span>
-                        </button>
-                    </div>
 
-                </div>
-            </div>
-        </div>
-        @endcan
 
-    </div>
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form action="{{Route('sto.import')}}" method="post" enctype="multipart/form-data">
-                        @csrf
-                        <div class="mb-3">
-                            <label for="formFile" class="form-label">Import File Excel</label>
-                            <input class="form-control" type="file" name="file" id="formFile">
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancle</button>
-                            <button type="submit" class="btn btn-primary">Import</button>
-                        </div>
-                    </form>
-                </div>
-
-            </div>
-        </div>
     </div>
 
 </div>

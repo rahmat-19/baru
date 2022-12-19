@@ -12,7 +12,7 @@ class Olt extends Model
         'id_sto',
         'hostname',
         'port',
-        'keterangan',
+        'slot',
     ];
     protected $with = ['stos'];
 

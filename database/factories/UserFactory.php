@@ -16,7 +16,6 @@ class UserFactory extends Factory
     {
         return [
             'name' => "Rahmat Hidayat",
-            'email' => "rahmat@gmail.com",
             'username' => "rahmat",
             'is_admin' => 'asmen',
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password

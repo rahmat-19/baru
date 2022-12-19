@@ -23,7 +23,8 @@ class OltController extends Controller
         $validatedData = $request->validate([
             'hostname' => 'required',
             'id_sto' => 'required',
-            'port' => 'required|integer'
+            'port' => 'required|integer',
+            'slot' => 'required|integer'
         ]);
 
         $valid = Olt::create($validatedData);
