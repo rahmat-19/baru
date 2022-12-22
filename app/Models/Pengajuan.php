@@ -8,14 +8,17 @@ use Illuminate\Database\Eloquent\Model;
 class Pengajuan extends Model
 {
     use HasFactory;
-    protected $fillable = [
-        'id_port',
-        'id_user',
-        'label',
-        'jenisPembangunan',
-        'izin',
-        'keterangan',
+    protected $guarded = [
+        'id'
     ];
+    // protected $fillable = [
+    //     'id_port',
+    //     'id_user',
+    //     'label',
+    //     'jenisPembangunan',
+    //     'izin',
+    //     'keterangan',
+    // ];
 
     protected $with = ['users', 'olt_ports'];
 

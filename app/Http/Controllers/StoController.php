@@ -37,6 +37,6 @@ class StoController extends Controller
         $nameFile = $datas->getClientOriginalName();
         $datas->move('stoImport', $nameFile);
         Excel::import(new StoImport, \public_path('/stoImport/' . $nameFile));
-        return redirect(route('sto.index'));
+        return redirect(route('olt.index'));
     }
 }

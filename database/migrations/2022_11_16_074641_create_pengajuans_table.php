@@ -17,11 +17,16 @@ class CreatePengajuansTable extends Migration
             $table->id();
             $table->foreignId('id_port');
             $table->foreignId('id_user');
+            $table->integer('izin')->default('2');
             // $table->foreignId('id_port')->constrained('olt_ports')->onDelete('cascade');
             // $table->foreignId('id_user')->constrained('users')->onDelete('cascade');;
-            $table->integer('izin')->default('2');
             $table->enum('jenisPembangunan', ['ODC', 'ODP']);
             $table->string('label');
+            $table->string('distribusi');
+            $table->string('alamat');
+            $table->integer('jumlahODP');
+            $table->integer('slot');
+            $table->string('usulan');
             $table->text('keterangan')->nullable();
             $table->timestamps();
         });

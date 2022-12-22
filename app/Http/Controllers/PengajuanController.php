@@ -49,7 +49,7 @@ class PengajuanController extends Controller
     public function diterima(Pengajuan $pengajuan)
     {
         $valid = $pengajuan->update([
-            'izin' => 1
+            'izin' => 0
         ]);
 
         if ($valid) {
@@ -61,7 +61,7 @@ class PengajuanController extends Controller
     public function ditolak(Pengajuan $pengajuan)
     {
         $valid = $pengajuan->update([
-            'izin' => 0
+            'izin' => 1
         ]);
 
         return redirect(Route('pengajuan.persetujuan'));
@@ -74,6 +74,11 @@ class PengajuanController extends Controller
             'jenisPembangunan' => 'required',
             'label' => 'required',
             'keterangan' => 'nullable',
+            'jumlahODP' => 'required',
+            'slot' => 'required',
+            'usulan' => 'required',
+            'alamat' => 'required',
+            'distribusi' => 'required'
         ]);
 
         $validateData['id_user'] = Auth::user()->id;

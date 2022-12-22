@@ -44,6 +44,7 @@ Route::middleware('asmen')->group(function () {
     /* =========================================== MANAGEMENT OLT ===========================================*/
     Route::post('olt/store', [OltController::class, 'store'])->name('olt.store');
     Route::delete('olt/delete/{olt}', [OltController::class, 'destroy'])->name('olt.destroy');
+    Route::post('olt/import', [OltController::class, 'import'])->name('olt.import');
     Route::get('persetujuan', [PengajuanController::class, 'persetujuan'])->name('pengajuan.persetujuan');
     Route::put('persetujuan/diterima/{pengajuan}', [PengajuanController::class, 'diterima'])->name('pengajuan.diterima');
     Route::put('persetujuan/ditolak/{pengajuan}', [PengajuanController::class, 'ditolak'])->name('pengajuan.ditolak');

@@ -38,7 +38,9 @@
                                 <td>{!! $data->keterangan !!}</td>
                                 <td>@if($data->izin === 2) <p class="text-primary">Menunggu</p> @elseif($data->izin === 1) <p class="text-success">Di Izinkan</p> @else <p class="text-danger">Di Tolak</p> @endif</td>
                                 <td>{{(new DateTime($data->create_at))->format(' l, d M Y')}}</td>
+                                @if($data->izin !== 2)
                                 <td><a href="{{Route('pengajuan.pdf', $data->id)}}">print</a></td>
+                                @endif
                             </tr>
                             @endforeach
 
