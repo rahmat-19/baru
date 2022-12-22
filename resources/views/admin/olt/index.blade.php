@@ -157,7 +157,7 @@
                                     <span class="icon text-white-50">
                                         <i class="fas fa-info-circle"></i>
                                     </span>
-                                    <span class="text">Add User</span>
+                                    <span class="text">Add OLT</span>
                                 </button>
                             </div>
                         </form>
