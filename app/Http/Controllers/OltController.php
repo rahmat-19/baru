@@ -21,7 +21,7 @@ class OltController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'hostname' => 'required',
+            'hostname' => 'required|unique:olts',
             'id_sto' => 'required',
             'port' => 'required|integer',
             'slot' => 'required|integer'

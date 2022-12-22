@@ -16,7 +16,7 @@ class CreateOltsTable extends Migration
         Schema::create('olts', function (Blueprint $table) {
             $table->id();
             $table->foreignId('id_sto');
-            $table->string('hostname');
+            $table->string('hostname')->unique();
             $table->integer('port');
             $table->integer('slot');
             $table->timestamps();
