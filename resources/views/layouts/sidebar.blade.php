@@ -64,7 +64,7 @@
             <li class="nav-item">
                 <a class="nav-link" href="{{Route('olt.index')}}">
                     <i class="fas fa-fw fa-table"></i>
-                    <span>Olt</span></a>
+                    <span>OLT</span></a>
             </li>
 
             @can('asmen')
