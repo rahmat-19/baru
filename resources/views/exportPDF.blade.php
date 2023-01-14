@@ -22,9 +22,9 @@
         </thead>
         <tbody>
             <tr>
-                <td>{{$data->olt_ports->olts->hostname}}</td>
+                <td>{{$data->slots->olts->hostname}}</td>
                 <td>{{$data->label}}</td>
-                <td>{{$data->olt_ports->port_number}}</td>
+                <td>{{$data->slots->port_number}}</td>
                 <td>{!! $data->keterangan !!}</td>
                 <td>@if($data->izin === 2) <p class="text-primary">Menunggu</p> @elseif($data->izin === 1) <p class="text-success">Di Izinkan</p> @else <p class="text-danger">Di Tolak</p> @endif</td>
                 <td>{{(new DateTime($data->create_at))->format(' l, d M Y')}}</td>

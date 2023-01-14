@@ -19,7 +19,13 @@ class PengajuanController extends Controller
         // $idPort = Auth::user()->olt_ports->pluck('id');
         // dd(oltPort::whereIn('id', $idPort)->first());
         // dd(Pengajuan::where('id_user', Auth::user()->id)->first()->olt_ports);
-        $data = Pengajuan::with(['olt_ports.olts'])->where('id_user', Auth::user()->id);
+
+
+        /* GET DATA PENGAJUAN BY USER */
+        // $data = Pengajuan::with(['slots.olts'])->where('id_user', Auth::user()->id);
+        /* =============================================================================== */
+
+
         // dd($data->first()->olt_ports->olts->hostname);
         // $data->groupBy(function ($item) {
         //     return $item->olt_ports->olts->hostname;
@@ -31,9 +37,10 @@ class PengajuanController extends Controller
         // });
 
 
+
         return view('pengajuan.index', [
             'title' => 'Pengajuan',
-            'datas' => $data->get()
+            'datas' => Auth::user()->pengajuans()->get()
         ]);
     }
 
@@ -49,7 +56,7 @@ class PengajuanController extends Controller
     public function diterima(Pengajuan $pengajuan)
     {
         $valid = $pengajuan->update([
-            'izin' => 0
+            'izin' => 1
         ]);
 
         if ($valid) {
@@ -61,7 +68,7 @@ class PengajuanController extends Controller
     public function ditolak(Pengajuan $pengajuan)
     {
         $valid = $pengajuan->update([
-            'izin' => 1
+            'izin' => 0
         ]);
 
         return redirect(Route('pengajuan.persetujuan'));
@@ -70,18 +77,21 @@ class PengajuanController extends Controller
     public function pengajuanPort(Request $request)
     {
         $validateData = $request->validate([
-            'id_port' => 'required',
+            'id_slot' => 'required',
             'jenisPembangunan' => 'required',
-            'label' => 'required',
+            'labelODP' => 'required',
+            'labelODC' => 'required',
             'keterangan' => 'nullable',
             'jumlahODP' => 'required',
-            'slot' => 'required',
             'usulan' => 'required',
             'alamat' => 'required',
-            'distribusi' => 'required'
+            'distribusi' => 'required',
+            'port' => 'required'
         ]);
 
         $validateData['id_user'] = Auth::user()->id;
+
+
         Pengajuan::create($validateData);
         return redirect(Route('pengajuan.index'));
     }

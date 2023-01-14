@@ -20,14 +20,14 @@ class Pengajuan extends Model
     //     'keterangan',
     // ];
 
-    protected $with = ['users', 'olt_ports'];
+    protected $with = ['users', 'slots'];
 
     public function users()
     {
         return $this->belongsTo(User::class, 'id_user', 'id');
     }
-    public function olt_ports()
+    public function slots()
     {
-        return $this->belongsTo(oltPort::class, 'id_port', 'id');
+        return $this->belongsTo(Slot::class, 'id_slot', 'id');
     }
 }

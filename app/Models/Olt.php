@@ -11,14 +11,19 @@ class Olt extends Model
     protected $fillable = [
         'id_sto',
         'hostname',
-        'port',
-        'slot',
     ];
     protected $with = ['stos'];
+    protected $appends = ['total_slots'];
 
-    public function olt_ports()
+
+    public function getTotalAttribute()
     {
-        return $this->hasMany(oltPort::class, 'id_olt');
+        return $this->slots->count();
+    }
+
+    public function slots()
+    {
+        return $this->hasMany(Slot::class, 'id_olt');
     }
 
     public function stos()

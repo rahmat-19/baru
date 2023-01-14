@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateOltPortsTable extends Migration
+class CreateSlotsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,13 @@ class CreateOltPortsTable extends Migration
      */
     public function up()
     {
-        Schema::create('olt_ports', function (Blueprint $table) {
+        Schema::create('slots', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('id_slot');
-            // $table->foreignId('id_slot')->references('id')->on('slots')->onDelete('cascade');
-            $table->integer('port_number');
-            $table->integer('penggunaan')->default(1);
+            $table->integer('number');
+            $table->foreignId('id_olt')->references('id')->on('olts')->onDelete('cascade');
             $table->timestamps();
         });
     }
-
 
     /**
      * Reverse the migrations.
@@ -31,6 +28,6 @@ class CreateOltPortsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('olt_ports');
+        Schema::dropIfExists('slots');
     }
 }

@@ -20,7 +20,8 @@
                             <tr>
                                 <th scope="col">#</th>
                                 <th scope="col">Nama OLT</th>
-                                <th scope="col">Label</th>
+                                <th scope="col">Label ODP / ODC</th>
+                                <th scope="col">Slot</th>
                                 <th scope="col">Port</th>
                                 <th scope="col">Keterangan</th>
                                 <th scope="col">izin</th>
@@ -32,15 +33,17 @@
                             @foreach($datas as $data)
                             <tr>
                                 <th scope="row">{{$loop->iteration}}</th>
-                                <td>{{$data->olt_ports->olts->hostname}}</td>
-                                <td>{{$data->label}}</td>
-                                <td>{{$data->olt_ports->port_number}}</td>
+                                <td>{{$data->slots->olts->hostname}}</td>
+                                <td>{{$data->labelODP}} / {{$data->labelODC}}</td>
+                                <td>{{$data->slots->number}}</td>
+                                <td>{{$data->port}}</td>
                                 <td>{!! $data->keterangan !!}</td>
                                 <td>@if($data->izin === 2) <p class="text-primary">Menunggu</p> @elseif($data->izin === 1) <p class="text-success">Di Izinkan</p> @else <p class="text-danger">Di Tolak</p> @endif</td>
                                 <td>{{(new DateTime($data->create_at))->format(' l, d M Y')}}</td>
                                 @if($data->izin !== 2)
                                 <td><a href="{{Route('pengajuan.pdf', $data->id)}}">print</a></td>
                                 @endif
+
                             </tr>
                             @endforeach
 

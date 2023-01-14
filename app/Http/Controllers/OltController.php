@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Olt;
 use App\Models\oltPort;
+use App\Models\Slot;
 use App\Models\sto;
 use Illuminate\Http\Request;
 
@@ -23,30 +24,32 @@ class OltController extends Controller
         $validatedData = $request->validate([
             'hostname' => 'required|unique:olts',
             'id_sto' => 'required',
-            'port' => 'required|integer',
-            'slot' => 'required|integer'
         ]);
 
+
         $valid = Olt::create($validatedData);
-        if ($valid) {
-            for ($i = 1; $i <= $valid->port; $i++) {
-                oltPort::create([
-                    'id_olt' => $valid->id,
-                    'port_number' => $i
-                ]);
-            }
-        }
+
         return redirect(Route('olt.index'));
     }
 
 
-    public function detail(Olt $olt)
+    public function detail(Olt $olt, Slot $slot)
     {
-        return view('admin.olt.detail', [
+        $datas = [
             'title' => $olt->name,
             'data' => $olt,
-            'ports' => $olt->olt_ports
-        ]);
+        ];
+
+
+        if (!empty($slot->olt_ports()->get()->toArray())) {
+            $datas['ports'] = $slot->olt_ports;
+        } else {
+            $datas['ports'] = null;
+        }
+
+
+
+        return view('admin.olt.detail', $datas);
     }
 
     public function destroy(Olt $olt)

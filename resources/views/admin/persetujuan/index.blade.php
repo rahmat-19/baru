@@ -31,7 +31,8 @@
                                     <th scope="col">Nama OLT</th>
                                     <th scope="col">STO</th>
                                     <th scope="col">Label</th>
-                                    <th scope="col">Port Pengajuan</th>
+                                    <th scope="col">Slot</th>
+                                    <th scope="col">Port</th>
                                     <th scope="col">Username</th>
                                     <th scope="col">Hari</th>
                                     <th scope="col">Aksi</th>
@@ -41,10 +42,11 @@
                                 @foreach($datas as $data)
                                 <tr>
                                     <th scope="row">{{$loop->iteration}}</th>
-                                    <td>{{$data->olt_ports->olts->hostname}}</td>
-                                    <td>{{$data->olt_ports->olts->stos->kota}}</td>
-                                    <td>{{$data->label}}</td>
-                                    <td>{{$data->olt_ports->port_number}}</td>
+                                    <td>{{$data->slots->olts->hostname}}</td>
+                                    <td>{{$data->slots->olts->stos->kota}}</td>
+                                    <td>{{$data->labelODP}} / {{$data->labelODC}}</td>
+                                    <td>{{$data->slots->number}}</td>
+                                    <td>{{$data->port}}</td>
                                     <td>{{$data->users->name}}</td>
                                     <td>{{(new DateTime($data->create_at))->format(' l, d M Y')}}</td>
                                     <td>

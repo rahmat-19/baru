@@ -5,8 +5,10 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\OltController;
 use App\Http\Controllers\OltPortController;
 use App\Http\Controllers\PengajuanController;
+use App\Http\Controllers\SlotController;
 use App\Http\Controllers\StoController;
 use App\Http\Controllers\UserController;
+use App\Models\Slot;
 use GuzzleHttp\Middleware;
 use Illuminate\Support\Facades\Route;
 
@@ -25,7 +27,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('logout', [AuthController::class, 'logout'])->name('logout');
     Route::get('olt', [OltController::class, 'index'])->name('olt.index');
-    Route::get('olt/detail/{olt}', [OltController::class, 'detail'])->name('olt.show');
+    Route::get('olt/detail/{olt}/slot/{slot?}', [OltController::class, 'detail'])->name('olt.show');
+    // Route::get('olt/detail/{olt}/slot/{slot}', [::class, 'detail'])->name('olt.showPort');
 
     Route::get('pengajuan', [PengajuanController::class, 'index'])->name('pengajuan.index');
     Route::get('pengajuan/exportPDF/{pengajuan}', [PengajuanController::class, 'exportPdf'])->name('pengajuan.pdf');
@@ -51,12 +54,15 @@ Route::middleware('asmen')->group(function () {
 
     /* ======================================== MANAGEMENT OLT-PORT ========================================*/
     Route::put('olt/port/{port}', [OltPortController::class, 'edit'])->name('port.edit');
-    Route::post('olt/port/{olt}', [OltPortController::class, 'addPort'])->name('port.addPort');
+    Route::post('olt/port/{slot}', [OltPortController::class, 'addPort'])->name('port.addPort');
     // Route::put('olt/port/{port}', [OltPortController::class, 'edit'])->name('port.edit');
 
     /* =========================================== MANAGEMENT STO ==========================================*/
     Route::get('sto', [StoController::class, 'index'])->name('sto.index');
     Route::post('sto/import', [StoController::class, 'import'])->name('sto.import');
+
+    /* =========================================== MANAGEMENT SLOT ==========================================*/
+    Route::post('slot', [SlotController::class, 'store'])->name('slot.store');
 });
 Route::middleware('guest')->group(function () {
     Route::get('login', [AuthController::class, 'index'])->name('login');

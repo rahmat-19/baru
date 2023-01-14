@@ -47,7 +47,6 @@
                                 <tr>
                                     <th>Hostname</th>
                                     <th>STO</th>
-                                    <th>Port</th>
                                     <th>Slot</th>
                                     <th>Aksi</th>
                                 </tr>
@@ -58,8 +57,7 @@
                                 <tr>
                                     <td>{{$data->hostname}}</td>
                                     <td>{{$data->stos->slug}}</td>
-                                    <td>{{$data->port}}</td>
-                                    <td>{{$data->slot}}</td>
+                                    <td>@if($data->total) {{$data->total}} @else <p>Belum Ada Slot</p> @endif</td>
                                     <td class="text-center">
                                         @can('asmen')
                                         <form action="{{Route('olt.destroy', $data->id)}}" method="post" class="d-inline">
@@ -114,7 +112,7 @@
                         <form action="{{Route('olt.store')}}" method="post">
                             @csrf
                             <div class="mb-3">
-                                <label for="hostname" class="form-label">Hostname OLT</label>
+                                <label for="hostname" class="form-label">Hostname</label>
                                 <input type="text" value="{{old('hostname')}}" class="form-control @error('hostname') is-invalid @enderror" name="hostname" id="hostname" placeholder="Name Olt">
                                 @error('hostname')
                                 <div id="hostname" class="invalid-feedback mb-3">
@@ -126,29 +124,11 @@
                                 <label for="sto" class="form-label">STO</label>
 
                                 <select class="js-example-basic-single form-select" id="id_sto" name="id_sto" style="width: 100%;">
-                                    <option>Select STO</option>
+                                    <option>Select</option>
                                     @foreach($stos as $sto)
                                     <option value={{$sto->id}}>{{$sto->kota}}</option>
                                     @endforeach
                                 </select>
-                            </div>
-                            <div class="mb-3">
-                                <label for="port" class="form-label">Slot</label>
-                                <input type="number" class="form-control @error('slot') is-invalid @enderror" id="slot" name="slot" placeholder="Jumlah Slot">
-                                @error('slot')
-                                <div id="slot" class="invalid-feedback mb-3">
-                                    {{$message}}
-                                </div>
-                                @enderror
-                            </div>
-                            <div class="mb-3">
-                                <label for="port" class="form-label">Jumlah Port</label>
-                                <input type="number" class="form-control @error('port') is-invalid @enderror" id="port" name="port" placeholder="Jumlah Port">
-                                @error('port')
-                                <div id="port" class="invalid-feedback mb-3">
-                                    {{$message}}
-                                </div>
-                                @enderror
                             </div>
                             <hr>
                             <div class="mb-3">

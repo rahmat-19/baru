@@ -10,21 +10,18 @@ class oltPort extends Model
     use HasFactory;
 
     protected $fillable = [
-        'id_olt',
+        'id_slot',
         'port_number',
         'penggunaan',
     ];
 
-    protected $with = ['olts'];
+    // protected $with = ['olts'];
 
-    public function olts()
+    public function slots()
     {
-        return $this->belongsTo(Olt::class, 'id_olt', 'id');
+        return $this->belongsTo(Slot::class, 'id_slot', 'id');
     }
-    public function pengajuans()
-    {
-        return $this->hasMany(Pengajuan::class);
-    }
+
 
     // public function users()
     // {

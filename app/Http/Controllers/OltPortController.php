@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Olt;
 use App\Models\oltPort;
+use App\Models\Slot;
 use Illuminate\Http\Request;
 
 class OltPortController extends Controller
@@ -20,24 +21,22 @@ class OltPortController extends Controller
             ]);
         }
 
-        return redirect(Route('olt.show', $port->id_olt));
+        return redirect(Route('olt.show', ['olt' => $port->slots->id_olt, 'slot' => $port->id_slot]));
     }
 
-    public function addPort(Olt $olt, Request $request)
+    public function addPort(Slot $slot, Request $request)
     {
-        $sumAltPortOlt = $olt->port;
-        $value = $olt->update([
-            "port" => $olt->port + $request->portAdd
-        ]);
-        if ($value) {
-            for ($i = $sumAltPortOlt + 1; $i <= $sumAltPortOlt + $request->portAdd; $i++) {
-                oltPort::create([
-                    'id_olt' => $olt->id,
-                    'port_number' => $i
-                ]);
-            }
+        $sumAltPortOlt = $slot->olt_ports->count();
 
-            return redirect(Route('olt.show', $olt->id));
+
+
+
+        for ($i = $sumAltPortOlt + 1; $i <= $sumAltPortOlt + 2; $i++) {
+            oltPort::create([
+                'id_slot' => $slot->id,
+                'port_number' => $i
+            ]);
         }
+        return redirect(Route('olt.show', ['olt' => $slot->id_olt, 'slot' => $slot->id]));
     }
 }
