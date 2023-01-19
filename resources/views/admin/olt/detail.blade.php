@@ -26,6 +26,17 @@
         $('#port').val(port);
         $('#id_slot').val(id_slot);
     });
+
+
+    $(document).ready(function() {
+
+        window.setTimeout(function() {
+            $(".alert").fadeTo(1000, 0).slideUp(1000, function() {
+                $(this).remove();
+            });
+        }, 3500);
+
+    });
 </script>
 @endpush
 @section('container')
@@ -33,6 +44,44 @@
 
 
 <div class="container-fluid">
+    <div class="row">
+        <div class="col"></div>
+        <div class="col ">
+            <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                <symbol id="check-circle-fill" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+                </symbol>
+                <symbol id="exclamation-triangle-fill" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
+                </symbol>
+            </svg>
+
+            @if(session()->has('success'))
+            <div class="alert alert-success d-flex align-items-center" role="alert">
+                <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:">
+                    <use xlink:href="#check-circle-fill" />
+                </svg>
+                <div>
+                    {{session('success')}}
+                </div>
+            </div>
+            @elseif(session()->has('errorr'))
+            <div class="alert alert-danger d-flex align-items-center" role="alert">
+                <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:">
+                    <use xlink:href="#exclamation-triangle-fill" />
+                </svg>
+                <div>
+                    {{session('errorr')}}
+                </div>
+            </div>
+            @endif
+
+
+
+
+        </div>
+    </div>
+
 
     <!-- Page Heading -->
     <h1 class="h3 mb-2 text-gray-800">Tables</h1>
@@ -49,15 +98,17 @@
                     <h6 class="m-0 font-weight-bold text-primary d-inline-block align-middle">Info Slot (OLT->{{$data->hostname}})
                     </h6>
                     @can('asmen')
+                    @if($data->total !== 16)
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
                         Add Slot
                     </button>
+                    @endif
                     @endcan
                 </div>
                 <div class="card-body">
                     @foreach($data->slots as $slot)
-                    <a href="{{Route('olt.show', ['olt' => $data->id, 'slot' => $slot->id])}}" class="text-decoration-none">
-                        <div class="my-2 bg-secondary text-white rounded-2 d-flex justify-content-around align-self-center" id="slot_column">
+                    <a href="{{Route('olt.show', ['olt' => $data->id, 'slot' => $slot->id])}}" class="text-decoration-none select_slot">
+                        <div class=" my-2 bg-secondary text-white rounded-2 d-flex justify-content-around align-self-center" id="slot_column">
                             <div class="text-center">
                                 <p>Number Slot</p>
                                 <p>{{$slot->number}}</p>
@@ -72,8 +123,8 @@
                 </div>
             </div>
         </div>
-        @if($ports)
 
+        @if($ports)
         <div class="col-lg-6">
             <div class="card shadow mb-4">
                 <!-- Card Header - Dropdown -->
@@ -106,17 +157,20 @@
 
                             </div>
                             @endforeach
+
                             @can('asmen')
+                            @if($ports->count() !== 16)
                             <div class="p-2 bd-highlight shadow-sm rounded text-center px-4 py-2 my-2">
                                 <div>
-                                    <p class="fw-bold">Tambah Port</p>
+                                    <p class="fw-bold">Tambah Port </p>
                                 </div>
-                                <button type="submit" class="btn btn-circle @if($port->penggunaan) btn-warning @else btn-danger  @endif addPortModal" data-bs-toggle="modal" data-url="{{Route('port.addPort', $port->id_slot)}}" data-bs-target="#addPort">
+                                <button type="submit" class="btn btn-circle @if($port->penggunaan) btn-warning @else btn-danger  @endif addPortModal" data-bs-toggle="modal" data-url="{{Route('port.addPort', $port->id_slot)}}" data-bs-target="#addPort" data-portT="">
                                     +
                                 </button>
 
 
                             </div>
+                            @endif
                             @endcan
                         </div>
                     </div>
@@ -125,8 +179,8 @@
             </div>
         </div>
 
-
         @endif
+
 
     </div>
 
@@ -149,7 +203,7 @@
                         </div>
                         <div class="col">
                             <label for="jPort" class="form-label">Jumlah Port</label>
-                            <input type="number" required value="{{old('jPort')}}" class="form-control @error('jPort') is-invalid @enderror" name="jPort" id="jPort" max="16">
+                            <input type="number" required value="{{old('jPort')}}" class="form-control @error('jPort') is-invalid @enderror" name="jPort" id="jPort" min="1" max="16">
                             @error('jPort')
                             <div id="jPort" class="invalid-feedback mb-3">
                                 {{$message}}
@@ -185,7 +239,7 @@
 
                         <div class="mb-3">
                             <label for="portAdd" class="form-label">Add Port</label>
-                            <input type="number" required class="form-control" name="portAdd" id="portAdd">
+                            <input type="number" required class="form-control" name="portAdd" id="portAdd" @if($ports) max="{{16 - $ports->count()}}" @endif min="1" value="1">
 
                         </div>
                         <div class="modal-footer">

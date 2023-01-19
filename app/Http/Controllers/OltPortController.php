@@ -31,7 +31,7 @@ class OltPortController extends Controller
 
 
 
-        for ($i = $sumAltPortOlt + 1; $i <= $sumAltPortOlt + 2; $i++) {
+        for ($i = $sumAltPortOlt + 1; $i <= $sumAltPortOlt + $request->portAdd; $i++) {
             oltPort::create([
                 'id_slot' => $slot->id,
                 'port_number' => $i

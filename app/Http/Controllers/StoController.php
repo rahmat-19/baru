@@ -20,6 +20,7 @@ class StoController extends Controller
 
     public function store(Request $request)
     {
+
         $validateData = $request->validate([
             'slug' => 'required|unique:stos',
             'kota' => 'required|unique:stos'

@@ -23,18 +23,7 @@ class StoImport implements ToCollection
                 $valid = Olt::create([
                     'id_sto' => $checkIDsto->id,
                     'hostname' => $row[1],
-                    'port' => $row[2],
-                    'slot' => $row[3],
                 ]);
-
-                if ($valid) {
-                    for ($i = 1; $i <= $valid->port; $i++) {
-                        oltPort::create([
-                            'id_olt' => $valid->id,
-                            'port_number' => $i
-                        ]);
-                    }
-                }
             } else {
                 continue;
             }

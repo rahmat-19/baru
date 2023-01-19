@@ -11,6 +11,8 @@ class Olt extends Model
     protected $fillable = [
         'id_sto',
         'hostname',
+        'merk',
+        'type',
     ];
     protected $with = ['stos'];
     protected $appends = ['total_slots'];

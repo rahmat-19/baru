@@ -15,7 +15,7 @@ class OltController extends Controller
         return view('admin.olt.index', [
             'title' => "All Olt",
             'datas' => Olt::all(),
-            'stos' => sto::all(),
+
         ]);
     }
 
@@ -36,7 +36,7 @@ class OltController extends Controller
     public function detail(Olt $olt, Slot $slot)
     {
         $datas = [
-            'title' => $olt->name,
+            'title' => $olt->hostname,
             'data' => $olt,
         ];
 

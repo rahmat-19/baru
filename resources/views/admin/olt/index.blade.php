@@ -1,11 +1,14 @@
 @extends('.layout.main')
 @push('styles')
+@livewireStyles
+
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 <link rel="stylesheet" href="/datatables/dataTables.bootstrap4.min.css">
 
 
 @endpush
 @push('scripts')
+@livewireScripts
 <script src="/datatables/jquery.dataTables.min.js"></script>
 <script src="/datatables/dataTables.bootstrap4.min.js"></script>
 <script>
@@ -47,6 +50,8 @@
                                 <tr>
                                     <th>Hostname</th>
                                     <th>STO</th>
+                                    <th>Type</th>
+                                    <th>Merk</th>
                                     <th>Slot</th>
                                     <th>Aksi</th>
                                 </tr>
@@ -57,6 +62,8 @@
                                 <tr>
                                     <td>{{$data->hostname}}</td>
                                     <td>{{$data->stos->slug}}</td>
+                                    <td>{{$data->merk}}</td>
+                                    <td>{{$data->type}}</td>
                                     <td>@if($data->total) {{$data->total}} @else <p>Belum Ada Slot</p> @endif</td>
                                     <td class="text-center">
                                         @can('asmen')
@@ -107,43 +114,10 @@
                     </div>
                 </div>
                 <!-- Card Body -->
-                <div class="card-body">
-                    <div class="">
-                        <form action="{{Route('olt.store')}}" method="post">
-                            @csrf
-                            <div class="mb-3">
-                                <label for="hostname" class="form-label">Hostname</label>
-                                <input type="text" value="{{old('hostname')}}" class="form-control @error('hostname') is-invalid @enderror" name="hostname" id="hostname" placeholder="Name Olt">
-                                @error('hostname')
-                                <div id="hostname" class="invalid-feedback mb-3">
-                                    {{$message}}
-                                </div>
-                                @enderror
-                            </div>
-                            <div class="mb-3">
-                                <label for="sto" class="form-label">STO</label>
 
-                                <select class="js-example-basic-single form-select" id="id_sto" name="id_sto" style="width: 100%;">
-                                    <option>Select</option>
-                                    @foreach($stos as $sto)
-                                    <option value={{$sto->id}}>{{$sto->kota}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <hr>
-                            <div class="mb-3">
+                @livewire('store-olt')
 
-                                <button type="submit" class="btn btn-info btn-icon-split">
-                                    <span class="icon text-white-50">
-                                        <i class="fas fa-info-circle"></i>
-                                    </span>
-                                    <span class="text">Add OLT</span>
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-
-                </div>
+                <!-- Card Input OLT -->
             </div>
         </div>
         @endcan
