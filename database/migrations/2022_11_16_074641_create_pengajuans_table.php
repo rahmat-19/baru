@@ -27,7 +27,7 @@ class CreatePengajuansTable extends Migration
             $table->string('alamat');
             $table->integer('port');
             $table->integer('jumlahODP');
-            $table->enum('usulan', ['qe', 'normalisasi']);
+            $table->enum('usulan', ['pembangunan sttf', 'normalisasi']);
             $table->text('keterangan')->nullable();
             $table->timestamps();
         });

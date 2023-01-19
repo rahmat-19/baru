@@ -267,11 +267,11 @@
                         <div class="row">
                             <div class="col">
                                 <div class="mb-3">
-                                    <label for="usulan" class="form-label">Usuelan</label>
+                                    <label for="usulan" class="form-label">Usulan</label>
                                     <select class="form-select" id="usulan" name="usulan" aria-label="Default select example" required>
                                         <option selected>Open this select menu</option>
-                                        <option value="qe">qe</option>
-                                        <option value="normalisasi">normalisasi</option>
+                                        <option value="pembangunan sttf">Pembangunan STTF</option>
+                                        <option value="normalisasi">Normalisasi</option>
                                     </select>
                                 </div>
                                 <div class="mb-3">
