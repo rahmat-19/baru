@@ -14,6 +14,7 @@
             <tr>
                 <th scope="col">Nama OLT</th>
                 <th scope="col">Label</th>
+                <th scope="col">Slot</th>
                 <th scope="col">Port</th>
                 <th scope="col">Keterangan</th>
                 <th scope="col">Izin</th>
@@ -23,8 +24,9 @@
         <tbody>
             <tr>
                 <td>{{$data->slots->olts->hostname}}</td>
-                <td>{{$data->label}}</td>
-                <td>{{$data->slots->port_number}}</td>
+                <td>{{$data->labelODP}} / {{$data->labelODC}}</td>
+                <td>{{$data->slots->number}}</td>
+                <td>{{$data->port}}</td>
                 <td>{!! $data->keterangan !!}</td>
                 <td>@if($data->izin === 2) <p class="text-primary">Menunggu</p> @elseif($data->izin === 1) <p class="text-success">Di Izinkan</p> @else <p class="text-danger">Di Tolak</p> @endif</td>
                 <td>{{(new DateTime($data->create_at))->format(' l, d M Y')}}</td>
