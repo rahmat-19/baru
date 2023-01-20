@@ -210,6 +210,23 @@
                             </div>
                             @enderror
                         </div>
+                        <div class="col">
+                            <label for="module" class="form-label">Module</label>
+                            <select class="form-select @error('module') is-invalid @enderror" id="module" name="module" aria-label="Default select example" required>
+                                <option selected>Open this select menu</option>
+                                <option value="GCOB">GCOB</option>
+                                <option value="GPOA">GPOA</option>
+                                <option value="GFOA">GFOA</option>
+                                <option value="GTGH">GTGH</option>
+                                <option value="GTGO">GTGO</option>
+                                <option value="GPFD">GPFD</option>
+                            </select>
+                            @error('module')
+                            <div id="module" class="invalid-feedback mb-3">
+                                {{$message}}
+                            </div>
+                            @enderror
+                        </div>
 
 
 

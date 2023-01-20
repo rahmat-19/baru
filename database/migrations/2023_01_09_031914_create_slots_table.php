@@ -16,6 +16,7 @@ class CreateSlotsTable extends Migration
         Schema::create('slots', function (Blueprint $table) {
             $table->id();
             $table->enum('number', [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]);
+            $table->enum('module', ["GCOB", "GPOA", "GFOA", "GTGH", "GTGO", "GPFD"]);
             $table->foreignId('id_olt')->references('id')->on('olts')->onDelete('cascade');
             $table->timestamps();
         });

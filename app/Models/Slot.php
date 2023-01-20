@@ -11,7 +11,8 @@ class Slot extends Model
 
     protected $fillable = [
         'number',
-        'id_olt'
+        'id_olt',
+        "module"
     ];
 
 

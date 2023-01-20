@@ -15,6 +15,7 @@ class SlotController extends Controller
             'jPort' => 'integer|required',
             'id_olt' => 'required',
             'number' => 'required',
+            'module' => 'required',
         ]);
 
 
