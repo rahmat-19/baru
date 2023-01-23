@@ -11,6 +11,7 @@ class Olt extends Model
     protected $fillable = [
         'id_sto',
         'hostname',
+        'ip',
         'merk',
         'type',
     ];

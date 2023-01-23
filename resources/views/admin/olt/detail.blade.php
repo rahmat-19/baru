@@ -36,6 +36,31 @@
             });
         }, 3500);
 
+        $('.select-module').on('change', function() {
+            if (this.value === "GPFD" || this.value === "GCOB" || this.value === "GFOA" || this.value === "GPOA" || this.value === "GFCH" || this.value === "GFGH" || this.value === "HFTH" || this.value === "GTGH") {
+                $("#jPort").val(16);
+            } else if (this.value === "GTGO") {
+                $("#jPort").val(8);
+            } else {
+                $("#jPort").val(null)
+            }
+
+            if (this.value === "GPFD") {
+                $("#announcement").html('Slot number berikut tidak dapat digunakan 0,9,10,18,19,20,21,22')
+            } else if (this.value === "GTGO" || this.value === "GTGH") {
+                $("#announcement").html('Slot number berikut tidak dapat digunakan 1,10,18-23')
+            } else if (this.value === "GFGH" || this.value === "HFTH" || this.value === "GFCH") {
+                $("#announcement").html('Slot number berikut tidak dapat digunakan 9,10,11,18-23')
+            } else if (this.value === "GCOB") {
+                $("#announcement").html('Slot number berikut tidak dapat digunakan 9,10')
+            } else if (this.value === "GFOA" || this.value === "GPOA") {
+                $("#announcement").html('Slot number berikut tidak dapat digunakan 9,10,19-23')
+            } else {
+                $("#announcement").html('')
+
+            }
+        });
+
     });
 </script>
 @endpush
@@ -124,7 +149,6 @@
             </div>
         </div>
 
-        @if($ports)
         <div class="col-lg-6">
             <div class="card shadow mb-4">
                 <!-- Card Header - Dropdown -->
@@ -134,6 +158,7 @@
                 <!-- Card Body -->
                 <div class="card-body">
                     <div class="">
+                        @if($ports)
                         <div class="d-flex flex-row bd-highlight mb-3 justify-content-evenly flex-wrap">
                             @foreach($ports as $port)
                             <div class="p-2 bd-highlight shadow-sm rounded text-center px-4 py-2 my-2 mx-2">
@@ -150,7 +175,7 @@
                                     </button>
                                 </form>
                                 @else
-                                <button type="button" class="btn btn-circle @if($port->penggunaan) btn-success @else btn-primary disabled  @endif edit buttonPengajuanModal" data-slot="{{$port->slots->number}}" data-port="{{$port->id}}" data-id_slot="{{$port->id_slot}}">
+                                <button type="button" class="btn btn-circle @if($port->penggunaan) btn-success @else btn-primary disabled  @endif edit buttonPengajuanModal" data-slot="{{$port->slots->number}}" data-port="{{$port->port_number}}" data-id_slot="{{$port->id_slot}}">
                                     @if($port->penggunaan) v @else x @endif
                                 </button>
                                 @endcan
@@ -158,28 +183,17 @@
                             </div>
                             @endforeach
 
-                            @can('asmen')
-                            @if($ports->count() !== 16)
-                            <div class="p-2 bd-highlight shadow-sm rounded text-center px-4 py-2 my-2">
-                                <div>
-                                    <p class="fw-bold">Tambah Port </p>
-                                </div>
-                                <button type="submit" class="btn btn-circle @if($port->penggunaan) btn-warning @else btn-danger  @endif addPortModal" data-bs-toggle="modal" data-url="{{Route('port.addPort', $port->id_slot)}}" data-bs-target="#addPort" data-portT="">
-                                    +
-                                </button>
 
-
-                            </div>
-                            @endif
-                            @endcan
                         </div>
+                        @else
+                        <p class="fw-bolder">Slot Belum Dipilih</p>
+                        @endif
                     </div>
 
                 </div>
             </div>
         </div>
 
-        @endif
 
 
     </div>
@@ -195,31 +209,25 @@
                     <form action="{{Route('slot.store')}}" method="post" id="modal_pengajuan">
                         @csrf
 
-
-                        <div class="col mb-1">
-                            <label for="number" class="form-label">Number Slot</label>
-                            <input type="number" required class="form-control" name="number" id="number">
-
-                        </div>
-                        <div class="col">
-                            <label for="jPort" class="form-label">Jumlah Port</label>
-                            <input type="number" required value="{{old('jPort')}}" class="form-control @error('jPort') is-invalid @enderror" name="jPort" id="jPort" min="1" max="16">
-                            @error('jPort')
-                            <div id="jPort" class="invalid-feedback mb-3">
-                                {{$message}}
-                            </div>
-                            @enderror
-                        </div>
-                        <div class="col">
+                        <div class="col mb-3">
                             <label for="module" class="form-label">Module</label>
-                            <select class="form-select @error('module') is-invalid @enderror" id="module" name="module" aria-label="Default select example" required>
+                            <select class="form-select select-module @error('module') is-invalid @enderror" id="module" name="module" aria-label="Default select example" required>
                                 <option selected>Open this select menu</option>
+                                @if($data->type === "MA5600T")
+                                <option value="GPFD">GPFD</option>
+                                @elseif($data->type === "AN5000")
                                 <option value="GCOB">GCOB</option>
-                                <option value="GPOA">GPOA</option>
+                                @elseif($data->type === "AN6000")
                                 <option value="GFOA">GFOA</option>
+                                <option value="GPOA">GPOA</option>
+                                @elseif($data->type === "C630")
+                                <option value="GFGH">GFGH</option>
+                                <option value="HFTH">HFTH</option>
+                                <option value="GFCH">GFCH</option>
+                                @elseif($data->type === "C320")
                                 <option value="GTGH">GTGH</option>
                                 <option value="GTGO">GTGO</option>
-                                <option value="GPFD">GPFD</option>
+                                @endif
                             </select>
                             @error('module')
                             <div id="module" class="invalid-feedback mb-3">
@@ -227,6 +235,21 @@
                             </div>
                             @enderror
                         </div>
+                        <div class="col mb-1">
+                            <label for="number" class="form-label">Number Slot</label>
+                            <input type="number" required class="form-control" name="number" id="number">
+                            <p class="text-muted" id="announcement"></p>
+                        </div>
+                        <div class="col">
+                            <label for="jPort" class="form-label">Jumlah Port</label>
+                            <input type="number" required read value="{{old('jPort')}}" class="form-control @error('jPort') is-invalid @enderror" name="jPort" id="jPort" min="1" max="16" readonly="true">
+                            @error('jPort')
+                            <div id="jPort" class="invalid-feedback mb-3">
+                                {{$message}}
+                            </div>
+                            @enderror
+                        </div>
+
 
 
 
@@ -295,13 +318,13 @@
                                     <label for="JenisPembangunan" class="form-label">Jenis Pembangunan</label>
                                     <select class="form-select" id="JenisPembangunan" name="jenisPembangunan" aria-label="Default select example" required>
                                         <option selected>Open this select menu</option>
-                                        <option value="ODP">ODP</option>
-                                        <option value="ODC">ODC</option>
+                                        <option value="PT 2">PT 2</option>
+                                        <option value="PT 3">PT 3</option>
                                     </select>
                                 </div>
                                 <div class="mb-3">
                                     <label for="labelODC" class="form-label">Label ODC</label>
-                                    <input type="text" required value="{{old('labelODC')}}" class="form-control @error('labelODC') is-invalid @enderror" name="labelODC" id="labelODC" placeholder="exp : GPON00-D2-CAU-3">
+                                    <input type="text" required value="{{old('labelODC')}}" class="form-control @error('labelODC') is-invalid @enderror" name="labelODC" id="labelODC" placeholder="exp : ODC-BJD-FCJ ">
                                     @error('labelODC')
                                     <div id="labelODC" class="invalid-feedback mb-3">
                                         {{$message}}
@@ -310,7 +333,7 @@
                                 </div>
                                 <div class="mb-3">
                                     <label for="labelODP" class="form-label">Label ODP</label>
-                                    <input type="text" required value="{{old('labelODP')}}" class="form-control @error('labelODP') is-invalid @enderror" name="labelODP" id="labelODP" placeholder="exp : GPON00-D2-CAU-3">
+                                    <input type="text" required value="{{old('labelODP')}}" class="form-control @error('labelODP') is-invalid @enderror" name="labelODP" id="labelODP" placeholder="exp : ODP-BJD-FCJ/01">
                                     @error('labelODP')
                                     <div id="labelODP" class="invalid-feedback mb-3">
                                         {{$message}}

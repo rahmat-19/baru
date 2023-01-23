@@ -1,15 +1,7 @@
 <div class="card-body">
     <div class="">
         <form wire:submit.prevent="save">
-            <div class="mb-3">
-                <label for="hostname" class="form-label">Hostname</label>
-                <input type="text" value="{{old('hostname')}}" wire:model="hostname" class="form-control @error('hostname') is-invalid @enderror" name="hostname" id="hostname" placeholder="Name Olt">
-                @error('hostname')
-                <div id="hostname" class="invalid-feedback mb-3">
-                    {{$message}}
-                </div>
-                @enderror
-            </div>
+
             <div class="mb-3" wire:ignore>
                 <label for="sto" class="form-label">STO</label>
 
@@ -24,6 +16,29 @@
                 </div>
                 @enderror
             </div>
+
+
+            <div class="mb-3">
+                <label for="hostname" class="form-label">Hostname</label>
+                <input type="text" value="{{old('hostname')}}" wire:model="hostname" class="form-control @error('hostname') is-invalid @enderror" name="hostname" id="hostname" placeholder="Hostname Olt">
+                @error('hostname')
+                <div id="hostname" class="invalid-feedback mb-3">
+                    {{$message}}
+                </div>
+                @enderror
+            </div>
+
+            <div class="mb-3">
+                <label for="ip" class="form-label">Ip Address</label>
+                <input type="text" value="{{old('ip')}}" wire:model="ip" class="form-control @error('ip') is-invalid @enderror" name="ip" id="ip" placeholder="0.0.0.0/24">
+                @error('ip')
+                <div id="ip" class="invalid-feedback mb-3">
+                    {{$message}}
+                </div>
+                @enderror
+            </div>
+
+
             <div class="mb-3">
                 <label for="merk" class="form-label">Merk OLT</label>
 
@@ -38,6 +53,8 @@
                 </div>
                 @enderror
             </div>
+
+
             <div class="mb-3">
                 <label for="type" class="form-label">Type {{$merk}}</label>
 

@@ -20,7 +20,7 @@ class CreatePengajuansTable extends Migration
             $table->integer('izin')->default('2');
             // $table->foreignId('id_port')->constrained('olt_ports')->onDelete('cascade');
             // $table->foreignId('id_user')->constrained('users')->onDelete('cascade');;
-            $table->enum('jenisPembangunan', ['ODC', 'ODP']);
+            $table->enum('jenisPembangunan', ['PT 2', 'PT 3']);
             $table->string('labelODP');
             $table->string('labelODC');
             $table->string('distribusi');

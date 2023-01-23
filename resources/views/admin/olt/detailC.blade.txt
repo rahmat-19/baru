@@ -98,16 +98,18 @@
                             </div>
                             @endforeach
                             @can('asmen')
+                            @if($ports->count() !== 16)
                             <div class="p-2 bd-highlight shadow-sm rounded text-center px-4 py-2 my-2">
                                 <div>
-                                    <p class="fw-bold">Tambah Port</p>
+                                    <p class="fw-bold">Tambah Port </p>
                                 </div>
-                                <button type="submit" class="btn btn-circle @if($port->penggunaan) btn-warning @else btn-danger  @endif" data-bs-toggle="modal" data-bs-target="#addPort">
+                                <button type="submit" class="btn btn-circle @if($port->penggunaan) btn-warning @else btn-danger  @endif addPortModal" data-bs-toggle="modal" data-url="{{Route('port.addPort', $port->id_slot)}}" data-bs-target="#addPort" data-portT="">
                                     +
                                 </button>
 
 
                             </div>
+                            @endif
                             @endcan
                         </div>
                     </div>

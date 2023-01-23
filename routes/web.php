@@ -24,7 +24,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware('auth')->group(function () {
-    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+    // Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('logout', [AuthController::class, 'logout'])->name('logout');
     Route::get('olt', [OltController::class, 'index'])->name('olt.index');
     Route::get('olt/detail/{olt}/slot/{slot?}', [OltController::class, 'detail'])->name('olt.show');

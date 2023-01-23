@@ -14,10 +14,12 @@ class StoreOlt extends Component
     public $id_sto = 1;
     public $types = ['C320', 'C630'];
     public $type;
+    public $ip;
     public $hostname;
 
     protected $rules = [
         'hostname' => 'required',
+        'ip' => 'required',
         'id_sto' => 'required|integer',
         'merk' => 'required',
         'type' => 'required',
