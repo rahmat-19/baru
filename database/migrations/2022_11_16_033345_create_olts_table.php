@@ -17,7 +17,7 @@ class CreateOltsTable extends Migration
             $table->id();
             $table->foreignId('id_sto');
             $table->string('hostname')->unique();
-            $table->string('ip');
+            $table->string('ip')->unique();
             $table->string('merk');
             $table->string('type');
             $table->timestamps();

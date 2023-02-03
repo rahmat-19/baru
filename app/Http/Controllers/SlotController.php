@@ -63,4 +63,26 @@ class SlotController extends Controller
             }
         }
     }
+
+    public function edit(Slot $slot)
+    {
+        return response()->json($slot);
+    }
+
+    public function update(Slot $slot, Request $request)
+    {
+        $sumAltPortOlt = $slot->olt_ports->count();
+        $data = $request->validate([
+            'id_olt' => 'required',
+            'module' => 'required',
+        ]);
+
+        for ($i = $sumAltPortOlt + 1; $i <= 16; $i++) {
+            oltPort::create([
+                'id_slot' => $slot->id,
+                'port_number' => $i
+            ]);
+        }
+        return redirect(Route('olt.show', ['olt' => $slot->id_olt, 'slot' => $slot->id]));
+    }
 }

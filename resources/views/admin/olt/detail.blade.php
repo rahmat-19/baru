@@ -26,6 +26,29 @@
         $('#port').val(port);
         $('#id_slot').val(id_slot);
     });
+    $(document).on('click', '#edit-slot', function() {
+        let url_name = $(this).data('url');
+        const base_url = "http://127.0.0.1:8000"
+        $.ajax({
+            url: url_name,
+            type: 'GET',
+            dataType: 'json',
+            success: function(data) {
+                $("#module_update").val(data.module)
+                $("#id_slot_model").val(data.id)
+                $('#form_edit_module').attr('action', `${base_url}/slot/update/${data.id}`);
+                if (data.module === "GPFD" || data.module === "GCOB" || data.module === "GFOA" || data.module === "GPOA" || data.module === "GFCH" || data.module === "GFGH" || data.module === "HFTH" || data.module === "GTGH") {
+                    $("#jPortUpdate").val(16);
+                } else if (data.module === "GTGO") {
+                    $("#jPortUpdate").val(8);
+                } else {
+                    $("#jPortUpdate").val(null)
+                }
+
+            }
+
+        });
+    });
 
 
     $(document).ready(function() {
@@ -58,6 +81,16 @@
             } else {
                 $("#announcement").html('')
 
+            }
+        });
+
+        $('.select-module-update').on('change', function() {
+            if (this.value === "GPFD" || this.value === "GCOB" || this.value === "GFOA" || this.value === "GPOA" || this.value === "GFCH" || this.value === "GFGH" || this.value === "HFTH" || this.value === "GTGH") {
+                $("#jPortUpdate").val(16);
+            } else if (this.value === "GTGO") {
+                $("#jPortUpdate").val(8);
+            } else {
+                $("#jPortUpdate").val(null)
             }
         });
 
@@ -132,18 +165,27 @@
                 </div>
                 <div class="card-body">
                     @foreach($data->slots as $slot)
-                    <a href="{{Route('olt.show', ['olt' => $data->id, 'slot' => $slot->id])}}" class="text-decoration-none select_slot">
-                        <div class=" my-2 bg-secondary text-white rounded-2 d-flex justify-content-around align-self-center" id="slot_column">
-                            <div class="text-center">
-                                <p>Number Slot</p>
-                                <p>{{$slot->number}}</p>
-                            </div>
-                            <div class="text-center">
-                                <p>Jumlah Port</p>
-                                <p>{{$slot->total}}</p>
+                    <div class=" my-2 bg-secondary text-white rounded-2">
+                        <div class="header-edit py-1 align-middle text-end px-5 bg-dark">
+                            <button type="button" class="btn btn-dark" id="edit-slot" data-bs-toggle="modal" data-bs-target="#modal-edit-slot" data-url="{{ route('slot.edit', $slot->id) }}">Edit</button>
+                        </div>
+                        <div class="body-slot">
+                            <div class="bdy">
+                                <a href="{{Route('olt.show', ['olt' => $data->id, 'slot' => $slot->id])}}" class="text-decoration-none select_slot">
+                                    <div class=" my-2 bg-secondary text-white rounded-2 d-flex justify-content-around align-self-center" id="slot_column">
+                                        <div class="text-center">
+                                            <p>Number Slot</p>
+                                            <p>{{$slot->number}}</p>
+                                        </div>
+                                        <div class="text-center">
+                                            <p>Jumlah Port</p>
+                                            <p>{{$slot->total}}</p>
+                                        </div>
+                                    </div>
+                                </a>
                             </div>
                         </div>
-                    </a>
+                    </div>
                     @endforeach
                 </div>
             </div>
@@ -411,6 +453,68 @@
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                             <button type="submit" class="btn btn-primary">Pengajuan</button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="modal-edit-slot" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Add Slot</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" id="form_edit_module">
+                        @method('put')
+                        @csrf
+                        <div class="col mb-3">
+                            <label for="module" class="form-label">Module</label>
+                            <select class="form-select select-module-update @error('module') is-invalid @enderror" id="module_update" name="module" aria-label="Default select example" required>
+                                <option selected>Open this select menu</option>
+                                @if($data->type === "MA5600T")
+                                <option value="GPFD">GPFD</option>
+                                @elseif($data->type === "AN5000")
+                                <option value="GCOB">GCOB</option>
+                                @elseif($data->type === "AN6000")
+                                <option value="GFOA">GFOA</option>
+                                <option value="GPOA">GPOA</option>
+                                @elseif($data->type === "C630")
+                                <option value="GFGH">GFGH</option>
+                                <option value="HFTH">HFTH</option>
+                                <option value="GFCH">GFCH</option>
+                                @elseif($data->type === "C320")
+                                <option value="GTGH">GTGH</option>
+                                <option value="GTGO">GTGO</option>
+                                @endif
+                            </select>
+                            @error('module')
+                            <div id="module" class="invalid-feedback mb-3">
+                                {{$message}}
+                            </div>
+                            @enderror
+                        </div>
+
+                        <div class="col">
+                            <label for="jPortUpdate" class="form-label">Jumlah Port</label>
+                            <input type="number" required read value="{{old('jPortUpdate')}}" class="form-control @error('jPortUpdate') is-invalid @enderror" name="jPortUpdate" id="jPortUpdate" min="1" max="16" readonly="true">
+                            @error('jPortUpdate')
+                            <div id="jPortUpdate" class="invalid-feedback mb-3">
+                                {{$message}}
+                            </div>
+                            @enderror
+                        </div>
+
+                        <input type="hidden" name="id_slot" id="id_slot_model">
+                        <br>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Update</button>
                         </div>
                     </form>
                 </div>

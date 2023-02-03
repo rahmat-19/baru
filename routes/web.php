@@ -63,6 +63,8 @@ Route::middleware('asmen')->group(function () {
 
     /* =========================================== MANAGEMENT SLOT ==========================================*/
     Route::post('slot', [SlotController::class, 'store'])->name('slot.store');
+    Route::get('slot/{slot}', [SlotController::class, 'edit'])->name('slot.edit');
+    Route::put('slot/update/{slot}', [SlotController::class, 'update'])->name('slot.update');
 });
 Route::middleware('guest')->group(function () {
     Route::get('login', [AuthController::class, 'index'])->name('login');
