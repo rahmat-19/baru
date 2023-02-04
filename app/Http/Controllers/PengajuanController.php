@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\oltPort;
+use Illuminate\Support\Facades\Gate;
 use App\Models\Pengajuan;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -35,35 +36,35 @@ class PengajuanController extends Controller
         //     dd($item);
         //     return $item->created_at->format('Y-m-d');
         // });
+        $response = Gate::inspect('asmen');
 
-
-
-        return view('pengajuan.index', [
-            'title' => 'Pengajuan',
-            'datas' => Auth::user()->pengajuans()->get()
-        ]);
+        if ($response->allowed()) {
+            return view('dashboard.index', [
+                'title' => "Persetujuan",
+                'datas' => Pengajuan::where('izin', 2)->get()
+            ]);
+        } else {
+            return view('dashboard.index', [
+                'title' => 'Pengajuan',
+                'datas' => Auth::user()->pengajuans()->get()
+            ]);
+        }
     }
 
-    public function persetujuan()
-    {
 
-        return view('admin.persetujuan.index', [
-            'title' => "Persetujuan",
-            'datas' => Pengajuan::where('izin', 2)->get()
-        ]);
-    }
 
     public function diterima(Pengajuan $pengajuan)
     {
+
         $valid = $pengajuan->update([
             'izin' => 1
         ]);
 
         if ($valid) {
-            oltPort::where('id', $pengajuan->id_port)->update(['penggunaan' => 1]);
+            oltPort::find($pengajuan->port_id)->update(['penggunaan' => 0]);
         }
 
-        return redirect(Route('pengajuan.persetujuan'));
+        return redirect(Route('dashboard'));
     }
     public function ditolak(Pengajuan $pengajuan)
     {
@@ -71,7 +72,7 @@ class PengajuanController extends Controller
             'izin' => 0
         ]);
 
-        return redirect(Route('pengajuan.persetujuan'));
+        return redirect(Route('dashboard'));
     }
 
     public function pengajuanPort(Request $request)
@@ -86,14 +87,15 @@ class PengajuanController extends Controller
             'usulan' => 'required',
             'alamat' => 'required',
             'distribusi' => 'required',
-            'port' => 'required'
+            'port' => 'required',
+            'port_id' => 'required'
         ]);
 
         $validateData['id_user'] = Auth::user()->id;
 
 
         Pengajuan::create($validateData);
-        return redirect(Route('pengajuan.index'));
+        return redirect(Route('dashboard'));
     }
 
     public function exportPdf(Pengajuan $pengajuan)

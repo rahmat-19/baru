@@ -53,6 +53,7 @@
                                     <th>Type</th>
                                     <th>Merk</th>
                                     <th>Slot</th>
+                                    @cannot('asmen') <th>Ip Address</th> @endcannot()
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -65,6 +66,7 @@
                                     <td>{{$data->merk}}</td>
                                     <td>{{$data->type}}</td>
                                     <td>@if($data->total) {{$data->total}} @else <p>Belum Ada Slot</p> @endif</td>
+                                    @cannot('asmen') <td>{{$data->ip}}</td> @endcannot()
                                     <td class="text-center">
                                         @can('asmen')
                                         <form action="{{Route('olt.destroy', $data->id)}}" method="post" class="d-inline">

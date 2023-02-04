@@ -18,14 +18,18 @@
         let url = $(this).data('url');
         $('#addPortModalForm').attr('action', url);
     });
+
     $(document).on('click', '.buttonPengajuanModal', function() {
         let port = $(this).data('port');
         let slot = $(this).data('slot');
+        let portid = $(this).data('portid');
         let id_slot = $(this).data('id_slot');
         $('#slot').val(slot);
         $('#port').val(port);
         $('#id_slot').val(id_slot);
+        $('#portid').val(portid);
     });
+
     $(document).on('click', '#edit-slot', function() {
         let url_name = $(this).data('url');
         const base_url = "http://127.0.0.1:8000"
@@ -166,9 +170,11 @@
                 <div class="card-body">
                     @foreach($data->slots as $slot)
                     <div class=" my-2 bg-secondary text-white rounded-2">
+                        @can('asmen')
                         <div class="header-edit py-1 align-middle text-end px-5 bg-dark">
                             <button type="button" class="btn btn-dark" id="edit-slot" data-bs-toggle="modal" data-bs-target="#modal-edit-slot" data-url="{{ route('slot.edit', $slot->id) }}">Edit</button>
                         </div>
+                        @endcan()
                         <div class="body-slot">
                             <div class="bdy">
                                 <a href="{{Route('olt.show', ['olt' => $data->id, 'slot' => $slot->id])}}" class="text-decoration-none select_slot">
@@ -217,7 +223,7 @@
                                     </button>
                                 </form>
                                 @else
-                                <button type="button" class="btn btn-circle @if($port->penggunaan) btn-success @else btn-primary disabled  @endif edit buttonPengajuanModal" data-slot="{{$port->slots->number}}" data-port="{{$port->port_number}}" data-id_slot="{{$port->id_slot}}">
+                                <button type="button" class="btn btn-circle @if($port->penggunaan) btn-success @else btn-primary disabled  @endif edit buttonPengajuanModal" data-slot="{{$port->slots->number}}" data-port="{{$port->port_number}}" data-portid="{{$port->id}}" data-id_slot="{{$port->id_slot}}">
                                     @if($port->penggunaan) v @else x @endif
                                 </button>
                                 @endcan
@@ -346,6 +352,7 @@
                     <form action="{{Route('pengajuan.port')}}" method="post" id="modal_pengajuan">
                         @csrf
                         <input type="hidden" name="id_slot" id="id_slot">
+                        <input type="hidden" name="port_id" id="portid">
                         <div class="row">
                             <div class="col">
                                 <div class="mb-3">

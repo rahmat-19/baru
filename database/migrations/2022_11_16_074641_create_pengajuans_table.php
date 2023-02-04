@@ -18,6 +18,7 @@ class CreatePengajuansTable extends Migration
             $table->foreignId('id_slot');
             $table->foreignId('id_user');
             $table->integer('izin')->default('2');
+            $table->integer('port_id');
             // $table->foreignId('id_port')->constrained('olt_ports')->onDelete('cascade');
             // $table->foreignId('id_user')->constrained('users')->onDelete('cascade');;
             $table->enum('jenisPembangunan', ['PT 2', 'PT 3']);

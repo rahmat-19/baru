@@ -15,8 +15,8 @@ class UserFactory extends Factory
     public function definition()
     {
         return [
-            'name' => "Rahmat Hidayat",
-            'username' => "rahmat",
+            'name' => "Administrator",
+            'username' => "admin",
             'is_admin' => 'asmen',
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
         ];

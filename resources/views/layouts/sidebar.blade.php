@@ -13,6 +13,11 @@
             <hr class="sidebar-divider my-0">
 
             <!-- Nav Item - Dashboard -->
+            <li class="nav-item active">
+                <a class="nav-link" href="{{Route('dashboard')}}">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>Dashboard</span></a>
+            </li>
 
 
             <!-- Divider -->
@@ -68,17 +73,6 @@
                 <a class="nav-link" href="{{Route('sto.index')}}">
                     <i class="fas fa-fw fa-table"></i>
                     <span>STO</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{Route('pengajuan.persetujuan')}}">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>Persetujuan</span></a>
-            </li>
-            @else
-            <li class="nav-item">
-                <a class="nav-link" href="{{Route('pengajuan.index')}}">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>Pengajuan</span></a>
             </li>
             @endcan
 

@@ -24,7 +24,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware('auth')->group(function () {
-    // Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/', [PengajuanController::class, 'index'])->name('dashboard');
     Route::get('logout', [AuthController::class, 'logout'])->name('logout');
     Route::get('olt', [OltController::class, 'index'])->name('olt.index');
     Route::get('olt/detail/{olt}/slot/{slot?}', [OltController::class, 'detail'])->name('olt.show');
@@ -37,18 +37,18 @@ Route::middleware('auth')->group(function () {
 Route::middleware('asmen')->group(function () {
 
     /*========================================== MANAGEMENT USERS ========================================== */
-    Route::get('waspang', [UserController::class, 'waspangIndex'])->name('waspang.index');
-    Route::get('asmen', [UserController::class, 'asmenIndex'])->name('asmen.index');
-    Route::post('waspang/store', [UserController::class, 'waspangStore'])->name('waspang.store');
-    Route::post('asmen/store', [UserController::class, 'asmenStore'])->name('asmen.store');
-    Route::delete('waspang/{user:username}', [UserController::class, 'waspangDestroy'])->name('waspang.destroy');
-    Route::delete('asmen/{user:username}', [UserController::class, 'asmenDestroy'])->name('asmen.destroy');
+    Route::get('user/waspang', [UserController::class, 'waspangIndex'])->name('waspang.index');
+    Route::get('user/asmen', [UserController::class, 'asmenIndex'])->name('asmen.index');
+    Route::post('user/waspang/store', [UserController::class, 'waspangStore'])->name('waspang.store');
+    Route::post('user/asmen/store', [UserController::class, 'asmenStore'])->name('asmen.store');
+    Route::delete('user/waspang/{user:username}', [UserController::class, 'waspangDestroy'])->name('waspang.destroy');
+    Route::delete('user/asmen/{user:username}', [UserController::class, 'asmenDestroy'])->name('asmen.destroy');
 
     /* =========================================== MANAGEMENT OLT ===========================================*/
     Route::post('olt/store', [OltController::class, 'store'])->name('olt.store');
     Route::delete('olt/delete/{olt}', [OltController::class, 'destroy'])->name('olt.destroy');
     Route::post('olt/import', [OltController::class, 'import'])->name('olt.import');
-    Route::get('persetujuan', [PengajuanController::class, 'persetujuan'])->name('pengajuan.persetujuan');
+    Route::get('persetujuan', [PengajuanController::class, 'index'])->name('pengajuan.persetujuan');
     Route::put('persetujuan/diterima/{pengajuan}', [PengajuanController::class, 'diterima'])->name('pengajuan.diterima');
     Route::put('persetujuan/ditolak/{pengajuan}', [PengajuanController::class, 'ditolak'])->name('pengajuan.ditolak');
 
@@ -62,9 +62,9 @@ Route::middleware('asmen')->group(function () {
     Route::post('sto/import', [StoController::class, 'import'])->name('sto.import');
 
     /* =========================================== MANAGEMENT SLOT ==========================================*/
-    Route::post('slot', [SlotController::class, 'store'])->name('slot.store');
-    Route::get('slot/{slot}', [SlotController::class, 'edit'])->name('slot.edit');
-    Route::put('slot/update/{slot}', [SlotController::class, 'update'])->name('slot.update');
+    Route::post('olt/slot', [SlotController::class, 'store'])->name('slot.store');
+    Route::get('olt/slot/{slot}', [SlotController::class, 'edit'])->name('slot.edit');
+    Route::put('olt/slot/update/{slot}', [SlotController::class, 'update'])->name('slot.update');
 });
 Route::middleware('guest')->group(function () {
     Route::get('login', [AuthController::class, 'index'])->name('login');
