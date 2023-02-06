@@ -40,7 +40,9 @@
             success: function(data) {
                 $("#module_update").val(data.module)
                 $("#id_slot_model").val(data.id)
-                $('#form_edit_module').attr('action', `${base_url}/slot/update/${data.id}`);
+                var url = '{{ route("slot.update", ":id") }}';
+                url = url.replace(':id', data.id);
+                $('#form_edit_module').attr('action', url);
                 if (data.module === "GPFD" || data.module === "GCOB" || data.module === "GFOA" || data.module === "GPOA" || data.module === "GFCH" || data.module === "GFGH" || data.module === "HFTH" || data.module === "GTGH") {
                     $("#jPortUpdate").val(16);
                 } else if (data.module === "GTGO") {

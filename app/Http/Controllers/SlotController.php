@@ -73,16 +73,32 @@ class SlotController extends Controller
     {
         $sumAltPortOlt = $slot->olt_ports->count();
         $data = $request->validate([
-            'id_olt' => 'required',
+            'id_slot' => 'required',
             'module' => 'required',
+            'jPortUpdate' => 'required',
         ]);
 
-        for ($i = $sumAltPortOlt + 1; $i <= 16; $i++) {
-            oltPort::create([
-                'id_slot' => $slot->id,
-                'port_number' => $i
-            ]);
+        $valid = $slot->update([
+            'module' => $request->module
+        ]);
+
+        if ($valid) {
+            if ($sumAltPortOlt <= $request->jPortUpdate) {
+                for ($i = $sumAltPortOlt + 1; $i <= 16; $i++) {
+                    oltPort::create([
+                        'id_slot' => $slot->id,
+                        'port_number' => $i
+                    ]);
+                }
+            } else {
+                for ($i = $sumAltPortOlt; $i > 8; $i--) {
+                    $data = oltPort::where('id_slot', $request->id_slot)->where('port_number', $i)->get();
+                    oltPort::destroy($data[0]->id);
+                }
+            }
         }
+
+
         return redirect(Route('olt.show', ['olt' => $slot->id_olt, 'slot' => $slot->id]));
     }
 }

@@ -54,7 +54,7 @@ class OltController extends Controller
 
     public function destroy(Olt $olt)
     {
-        $valid = Olt::destroy($olt->id);
+        $valid = $olt::destroy($olt->id);
         return redirect(Route('olt.index'));
     }
 }
