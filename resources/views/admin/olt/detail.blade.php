@@ -384,7 +384,7 @@
                                 </div>
                                 <div class="mb-3">
                                     <label for="labelODP" class="form-label">Label ODP</label>
-                                    <input type="text" required value="{{old('labelODP')}}" class="form-control @error('labelODP') is-invalid @enderror" name="labelODP" id="labelODP" placeholder="exp : ODP-BJD-FCJ/01">
+                                    <input type="text" required value="{{old('labelODP')}}" class="form-control @error('labelODP') is-invalid @enderror" name="labelODP" id="labelODP" placeholder="exp : ODP-BJD-FCJ">
                                     @error('labelODP')
                                     <div id="labelODP" class="invalid-feedback mb-3">
                                         {{$message}}
@@ -448,7 +448,7 @@
 
 
                         <div class="mb-3">
-                            <label for="keterangan" class="form-label">keterangan</label>
+                            <label for="keterangan" class="form-label">keterangan ODP</label>
                             <input id="keterangan" type="hidden" name="keterangan" class="@error('keterangan') is-invalid @enderror">
                             <trix-editor input="keterangan"></trix-editor>
                             @error('keterangan')

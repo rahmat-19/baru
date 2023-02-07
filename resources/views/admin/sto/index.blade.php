@@ -39,8 +39,8 @@
                         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                             <thead>
                                 <tr>
-                                    <th>Slug</th>
-                                    <th>Kota</th>
+                                    <th>STO</th>
+                                    <th>Area</th>
                                 </tr>
                             </thead>
 
