@@ -18,6 +18,7 @@ class SlotController extends Controller
             'module' => 'required',
         ]);
 
+
         $GPFDignore = [0, 9, 10, 18, 19, 20, 21, 22];
         $GTGOGTGHignore = [1, 10, 18, 19, 20, 21, 22];
         $GFGHHFTHGFCHignore = [9, 10, 11, 18, 19, 20, 21, 22];

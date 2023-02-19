@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePengajuansTable extends Migration
+class CreateDataPortsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,29 +13,22 @@ class CreatePengajuansTable extends Migration
      */
     public function up()
     {
-        Schema::create('pengajuans', function (Blueprint $table) {
-            $table->uuid('id')->primary();
-            $table->foreignId('id_slot');
+        Schema::create('data_ports', function (Blueprint $table) {
+            $table->id();
             $table->foreignId('id_user');
-            $table->integer('izin')->default('2');
-            $table->foreignId('port_id');
-            // $table->foreignId('id_port')->constrained('olt_ports')->onDelete('cascade');
-            // $table->foreignId('id_user')->constrained('users')->onDelete('cascade');;
+            $table->foreignId('id_port');
             $table->enum('jenisPembangunan', ['PT 2', 'PT 3']);
+            $table->string('id_pengajuan');
             $table->string('labelODP');
             $table->string('labelODC');
             $table->string('distribusi');
             $table->string('alamat');
-            $table->integer('port');
             $table->integer('jumlahODP');
             $table->enum('usulan', ['pembangunan sttf', 'normalisasi']);
             $table->text('keterangan')->nullable();
             $table->timestamps();
         });
     }
-
-
-
 
     /**
      * Reverse the migrations.
@@ -44,6 +37,6 @@ class CreatePengajuansTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pengajuans');
+        Schema::dropIfExists('data_ports');
     }
 }

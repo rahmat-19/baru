@@ -56,6 +56,37 @@
         });
     });
 
+    $(document).on('click', '#detailPort', function() {
+        let url_name = $(this).data('url');
+        let port = $(this).data('port');
+        $('#delete_port_data').attr('action', `http://127.0.0.1:8000/olt/port/unabel/${port}`)
+        $.ajax({
+            url: url_name,
+            type: 'GET',
+            dataType: 'json',
+            success: function(data) {
+                /* TODO */
+                console.log(data);
+                if (data.data_ports) {
+                    $('#detail_pengajuan').text(data.data_ports.users.name)
+                    $('#detail_id_pengajuan').text(data.data_ports.id_pengajuan)
+                    $('#detail_jp').text(data.data_ports.jenisPembangunan)
+                    $('#detail_lodp').text(data.data_ports.labelODP)
+                    $('#detail_lodc').text(data.data_ports.labelODC)
+                    $('#detail_distri').text(data.data_ports.distribusi)
+                    $('#detail_alamat').text(data.data_ports.alamat)
+                    $('#detail_jodp').text(data.data_ports.jumlahODP)
+                    $('#detail_usulan').text(data.data_ports.usulan)
+                    $('#head_keterangan').text('Keterangan ODC : ')
+                    $('#detail_keterangan').html(data.data_ports.keterangan)
+                } else {
+                    $('#data_table').html('<th colspan="9" class="text-center">Tidak Ada Data</th>')
+                }
+
+
+            }
+        })
+    })
 
     $(document).ready(function() {
 
@@ -217,13 +248,21 @@
                                     <p>{{$port->port_number}}</p>
                                 </div>
                                 @can('asmen')
+                                @if($port->penggunaan)
                                 <form action="{{Route('port.edit', $port->id)}}" method="post">
                                     @method('put')
                                     @csrf
                                     <button type="submit" class="btn btn-circle @if($port->penggunaan) btn-success @else btn-primary  @endif">
-                                        @if($port->penggunaan) v @else x @endif
+                                        v
                                     </button>
                                 </form>
+                                @else
+                                <button type="button" data-port="{{$port->id}}" class="btn btn-circle @if($port->penggunaan) btn-success @else btn-primary @endif" id="detailPort" data-bs-toggle="modal" data-bs-target="#modal-detail-port" data-url="{{ route('port.detail', $port->id) }}">
+                                    x
+                                </button>
+                                @endif
+
+
                                 @else
                                 <button type="button" class="btn btn-circle @if($port->penggunaan) btn-success @else btn-primary disabled  @endif edit buttonPengajuanModal" data-slot="{{$port->slots->number}}" data-port="{{$port->port_number}}" data-portid="{{$port->id}}" data-id_slot="{{$port->id_slot}}">
                                     @if($port->penggunaan) v @else x @endif
@@ -414,7 +453,7 @@
                                 </div>
                                 <div class="mb-3">
                                     <label for="jumlahODP" class="form-label">Jumlah ODP</label>
-                                    <input type="number" required value="{{old('jumlahODP')}}" class="form-control @error('jumlahODP') is-invalid @enderror" name="jumlahODP" id="jumlahODP">
+                                    <input type="number" required value="{{old('jumlahODP')}}" class="form-control @error('jumlahODP') is-invalid @enderror" name="jumlahODP" id="jumlahODP" min=1>
                                     @error('jumlahODP')
                                     <div id="jumlahODP" class="invalid-feedback mb-3">
                                         {{$message}}
@@ -469,7 +508,6 @@
             </div>
         </div>
     </div>
-
 
     <div class="modal fade" id="modal-edit-slot" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -528,6 +566,58 @@
                     </form>
                 </div>
 
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modal-detail-port" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl ">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Detail Port</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- TODO -->
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Pengajuan</th>
+                                <th scope="col">Id-Pengajuan</th>
+                                <th scope="col">Jenis Pembangunan</th>
+                                <th scope="col">Label ODP</th>
+                                <th scope="col">Label ODC</th>
+                                <th scope="col">Distribusi</th>
+                                <th scope="col">Alamat</th>
+                                <th scope="col">Jumlah ODP</th>
+                                <th scope="col">Usulan</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr id="data_table">
+                                <th id="detail_pengajuan"></th>
+                                <th id="detail_id_pengajuan"></th>
+                                <td id="detail_jp"></td>
+                                <td id="detail_lodp"></td>
+                                <td id="detail_lodc"></td>
+                                <td id="detail_distri"></td>
+                                <td id="detail_alamat"></td>
+                                <td id="detail_jodp"></td>
+                                <td id="detail_usulan"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <h4 id="head_keterangan"></h4>
+                    <p id="detail_keterangan"></p>
+                </div>
+                <div class="modal-footer">
+                    <form method="post" id="delete_port_data">
+                        @csrf
+                        @method('put')
+                        <button type="submit" class="btn btn-danger" data-bs-dismiss="modal">Unable</button>
+                    </form>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                </div>
             </div>
         </div>
     </div>

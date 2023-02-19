@@ -18,8 +18,8 @@ class CreateOltsTable extends Migration
             $table->foreignId('id_sto');
             $table->string('hostname')->unique();
             $table->string('ip')->unique();
-            $table->string('merk');
-            $table->string('type');
+            $table->enum('merk', ['ZTE', 'HUAWEI', 'FIBERHIOME']);
+            $table->enum('type', ['C320', 'C630', 'MA5600T', 'AN5000', 'AN6000']);
             $table->timestamps();
         });
     }

@@ -24,11 +24,27 @@ class OltPortController extends Controller
         return redirect(Route('olt.show', ['olt' => $port->slots->id_olt, 'slot' => $port->id_slot]));
     }
 
+    public function unable(oltPort $port)
+    {
+        $valid = $port->update([
+            'penggunaan' => 1
+        ]);
+        if ($valid) {
+            if ($port->data_ports) {
+                $port->data_ports()->delete();
+            }
+            return redirect(Route('olt.show', ['olt' => $port->slots->id_olt, 'slot' => $port->id_slot]));
+        }
+    }
+
+    public function detail(oltPort $port)
+    {
+        return response()->json($port);
+    }
+
     public function addPort(Slot $slot, Request $request)
     {
         $sumAltPortOlt = $slot->olt_ports->count();
-
-
 
 
         for ($i = $sumAltPortOlt + 1; $i <= $sumAltPortOlt + $request->portAdd; $i++) {

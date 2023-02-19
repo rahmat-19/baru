@@ -18,7 +18,7 @@ class StoreOlt extends Component
     public $hostname;
 
     protected $rules = [
-        'hostname' => 'required',
+        'hostname' => 'required|unique:olts',
         'ip' => 'required',
         'id_sto' => 'required|integer',
         'merk' => 'required',

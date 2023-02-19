@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DataPorts;
 use App\Models\oltPort;
 use Illuminate\Support\Facades\Gate;
 use App\Models\Pengajuan;
@@ -9,6 +10,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Route;
 use Illuminate\Support\Facades\Auth;
+use Haruncpi\LaravelIdGenerator\IdGenerator;
 use Illuminate\Support\Facades\DB;
 use PhpOffice\PhpSpreadsheet\Reader\Xls\RC4;
 use PDF;
@@ -50,9 +52,6 @@ class PengajuanController extends Controller
             ]);
         }
     }
-
-
-
     public function diterima(Pengajuan $pengajuan)
     {
 
@@ -62,6 +61,28 @@ class PengajuanController extends Controller
 
         if ($valid) {
             oltPort::find($pengajuan->port_id)->update(['penggunaan' => 0]);
+            $fileters = Pengajuan::where('port_id', $pengajuan->port_id)->where('izin', 2)->get();
+            foreach ($fileters as $fileter) {
+                $fileter->update([
+                    'izin' => 0
+                ]);
+            };
+
+            $datas = [
+                'id_pengajuan' => $pengajuan->id,
+                'id_user' => $pengajuan->id_user,
+                'id_port' => $pengajuan->port_id,
+                'jenisPembangunan' => $pengajuan->jenisPembangunan,
+                "labelODP" => $pengajuan->labelODP,
+                "labelODC" => $pengajuan->labelODC,
+                "distribusi" => $pengajuan->distribusi,
+                "alamat" => $pengajuan->alamat,
+                "jumlahODP" => $pengajuan->jumlahODP,
+                "usulan" => $pengajuan->usulan,
+                "keterangan" => $pengajuan->keterangan,
+
+            ];
+            DataPorts::create($datas);
         }
 
         return redirect(Route('dashboard'));

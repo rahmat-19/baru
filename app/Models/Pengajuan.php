@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Haruncpi\LaravelIdGenerator\IdGenerator;
 
 class Pengajuan extends Model
 {
@@ -21,6 +22,11 @@ class Pengajuan extends Model
     // ];
 
     protected $with = ['users', 'slots'];
+    public $incrementing = false;
+    public function getRouteKeyName()
+    {
+        return 'id';
+    }
 
     public function users()
     {
@@ -29,5 +35,26 @@ class Pengajuan extends Model
     public function slots()
     {
         return $this->belongsTo(Slot::class, 'id_slot', 'id');
+    }
+    public function olt_ports()
+    {
+        return $this->belongsTo(oltPort::class, 'port_id', 'id');
+    }
+
+    // public static function boot()
+    // {
+    //     parent::boot();
+    //     self::creating(function ($model) {
+    //         $model->uuid = IdGenerator::generate(['table' => 'pengajuans', 'length' => 6, ]);
+    //     });
+    // }
+
+
+    public static function boot()
+    {
+        parent::boot();
+        self::creating(function ($model) {
+            $model->id = IdGenerator::generate(['table' => 'pengajuans', 'length' => 10, 'prefix' => 'FTTH-']);
+        });
     }
 }

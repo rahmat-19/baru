@@ -56,6 +56,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(Pengajuan::class, 'id_user');
     }
+    public function data_ports()
+    {
+        return $this->hasMany(DataPorts::class, 'id_user');
+    }
 
     // public function olt_ports()
     // {
