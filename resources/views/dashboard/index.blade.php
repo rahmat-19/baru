@@ -39,7 +39,7 @@
                                     <td>{{$data->slots->number}}</td>
                                     <td>{{$data->port}}</td>
                                     <td>{{$data->labelODP}} / {{$data->labelODC}}</td>
-                                    <td>{{(new DateTime($data->create_at))->format(' l, d M Y')}}</td>
+                                    <td>{{(new DateTime($data->create_at))->format('d/m/Y')}}</td>
                                     <td>{{$data->users->name}}</td>
                                     <td>
                                         <form action="{{Route('pengajuan.diterima', $data->id)}}" method="post" class="d-inline">
@@ -108,7 +108,7 @@
                                 <td>{{$data->port}}</td>
                                 <td>{{$data->labelODP}} / {{$data->labelODC}}</td>
                                 <td>{!! $data->keterangan !!}</td>
-                                <td>{{(new DateTime($data->create_at))->format(' l, d/m/Y')}}</td>
+                                <td>{{(new DateTime($data->create_at))->format('d/m/Y')}}</td>
                                 <td>@if($data->izin === 2) <p class="text-primary">Menunggu</p> @elseif($data->izin === 1) <p class="text-success">Di Izinkan</p> @else <p class="text-danger">Di Tolak</p> @endif</td>
                                 @if($data->izin !== 2)
                                 <td><a href="{{Route('pengajuan.pdf', $data->id)}}">print</a></td>
