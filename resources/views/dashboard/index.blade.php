@@ -20,27 +20,27 @@
                             <thead>
                                 <tr>
                                     <th scope="col">#</th>
-                                    <th scope="col">Nama OLT</th>
                                     <th scope="col">STO</th>
-                                    <th scope="col">Label</th>
+                                    <th scope="col">Nama OLT</th>
                                     <th scope="col">Slot</th>
                                     <th scope="col">Port</th>
-                                    <th scope="col">Username</th>
+                                    <th scope="col">Label</th>
                                     <th scope="col">Hari</th>
+                                    <th scope="col">Waspang</th>
                                     <th scope="col">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach($datas as $data)
                                 <tr>
-                                    <th scope="row">{{$loop->iteration}}</th>
-                                    <td>{{$data->slots->olts->hostname}}</td>
+                                    <th scope="row">{{$data->id}}</th>
                                     <td>{{$data->slots->olts->stos->kota}}</td>
-                                    <td>{{$data->labelODP}} / {{$data->labelODC}}</td>
+                                    <td>{{$data->slots->olts->hostname}}</td>
                                     <td>{{$data->slots->number}}</td>
                                     <td>{{$data->port}}</td>
-                                    <td>{{$data->users->name}}</td>
+                                    <td>{{$data->labelODP}} / {{$data->labelODC}}</td>
                                     <td>{{(new DateTime($data->create_at))->format(' l, d M Y')}}</td>
+                                    <td>{{$data->users->name}}</td>
                                     <td>
                                         <form action="{{Route('pengajuan.diterima', $data->id)}}" method="post" class="d-inline">
 
@@ -90,26 +90,26 @@
                             <tr>
                                 <th scope="col">#</th>
                                 <th scope="col">Nama OLT</th>
-                                <th scope="col">Label ODP / ODC</th>
                                 <th scope="col">Slot</th>
                                 <th scope="col">Port</th>
+                                <th scope="col">Label ODP / ODC</th>
                                 <th scope="col">Keterangan</th>
-                                <th scope="col">izin</th>
                                 <th scope="col">waktu</th>
+                                <th scope="col">izin</th>
                                 <th scope="col"></th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach($datas as $data)
                             <tr>
-                                <th scope="row">{{$loop->iteration}}</th>
+                                <th scope="row">{{$data->id}}</th>
                                 <td>{{$data->slots->olts->hostname}}</td>
-                                <td>{{$data->labelODP}} / {{$data->labelODC}}</td>
                                 <td>{{$data->slots->number}}</td>
                                 <td>{{$data->port}}</td>
+                                <td>{{$data->labelODP}} / {{$data->labelODC}}</td>
                                 <td>{!! $data->keterangan !!}</td>
+                                <td>{{(new DateTime($data->create_at))->format(' l, d/m/Y')}}</td>
                                 <td>@if($data->izin === 2) <p class="text-primary">Menunggu</p> @elseif($data->izin === 1) <p class="text-success">Di Izinkan</p> @else <p class="text-danger">Di Tolak</p> @endif</td>
-                                <td>{{(new DateTime($data->create_at))->format(' l, d M Y')}}</td>
                                 @if($data->izin !== 2)
                                 <td><a href="{{Route('pengajuan.pdf', $data->id)}}">print</a></td>
                                 @endif
