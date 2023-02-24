@@ -25,7 +25,7 @@
                                     <th scope="col">Slot</th>
                                     <th scope="col">Port</th>
                                     <th scope="col">Label</th>
-                                    <th scope="col">Hari</th>
+                                    <th scope="col">Tanggal Pengajuan</th>
                                     <th scope="col">Waspang</th>
                                     <th scope="col">Aksi</th>
                                 </tr>
@@ -33,7 +33,7 @@
                             <tbody>
                                 @foreach($datas as $data)
                                 <tr>
-                                    <th scope="row">{{$data->id}}</th>
+                                    <th scope="row">{{$data->id_pengajuan}}</th>
                                     <td>{{$data->slots->olts->stos->kota}}</td>
                                     <td>{{$data->slots->olts->hostname}}</td>
                                     <td>{{$data->slots->number}}</td>
@@ -94,7 +94,7 @@
                                 <th scope="col">Port</th>
                                 <th scope="col">Label ODP / ODC</th>
                                 <th scope="col">Keterangan</th>
-                                <th scope="col">waktu</th>
+                                <th scope="col">Tanggal Pengajuan</th>
                                 <th scope="col">izin</th>
                                 <th scope="col"></th>
                             </tr>
@@ -102,7 +102,7 @@
                         <tbody>
                             @foreach($datas as $data)
                             <tr>
-                                <th scope="row">{{$data->id}}</th>
+                                <th scope="row">{{$data->id_pengajuan}}</th>
                                 <td>{{$data->slots->olts->hostname}}</td>
                                 <td>{{$data->slots->number}}</td>
                                 <td>{{$data->port}}</td>

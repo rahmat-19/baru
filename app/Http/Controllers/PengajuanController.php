@@ -69,7 +69,7 @@ class PengajuanController extends Controller
             };
 
             $datas = [
-                'id_pengajuan' => $pengajuan->id,
+                'id_pengajuan' => $pengajuan->id_pengajuan,
                 'id_user' => $pengajuan->id_user,
                 'id_port' => $pengajuan->port_id,
                 'jenisPembangunan' => $pengajuan->jenisPembangunan,
@@ -109,7 +109,8 @@ class PengajuanController extends Controller
             'alamat' => 'required',
             'distribusi' => 'required',
             'port' => 'required',
-            'port_id' => 'required'
+            'port_id' => 'required',
+            'id_pengajuan' => 'required|unique:pengajuans'
         ]);
 
         $validateData['id_user'] = Auth::user()->id;

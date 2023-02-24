@@ -23,10 +23,10 @@ class Pengajuan extends Model
 
     protected $with = ['users', 'slots'];
     public $incrementing = false;
-    public function getRouteKeyName()
-    {
-        return 'id';
-    }
+    // public function getRouteKeyName()
+    // {
+    //     return 'id';
+    // }
 
     public function users()
     {
@@ -41,20 +41,12 @@ class Pengajuan extends Model
         return $this->belongsTo(oltPort::class, 'port_id', 'id');
     }
 
+
     // public static function boot()
     // {
     //     parent::boot();
     //     self::creating(function ($model) {
-    //         $model->uuid = IdGenerator::generate(['table' => 'pengajuans', 'length' => 6, ]);
+    //         $model->id = IdGenerator::generate(['table' => 'pengajuans', 'length' => 10, 'prefix' => 'FTTH-']);
     //     });
     // }
-
-
-    public static function boot()
-    {
-        parent::boot();
-        self::creating(function ($model) {
-            $model->id = IdGenerator::generate(['table' => 'pengajuans', 'length' => 10, 'prefix' => 'FTTH-']);
-        });
-    }
 }

@@ -77,10 +77,12 @@
                     $('#detail_alamat').text(data.data_ports.alamat)
                     $('#detail_jodp').text(data.data_ports.jumlahODP)
                     $('#detail_usulan').text(data.data_ports.usulan)
-                    $('#head_keterangan').text('Keterangan ODC : ')
+                    $('#head_keterangan').html('Keterangan ODC : ')
                     $('#detail_keterangan').html(data.data_ports.keterangan)
                 } else {
                     $('#data_table').html('<th colspan="9" class="text-center">Tidak Ada Data</th>')
+                    $('#head_keterangan').html('')
+                    $('#detail_keterangan').html("")
                 }
 
 
@@ -395,6 +397,15 @@
                         <input type="hidden" name="id_slot" id="id_slot">
                         <input type="hidden" name="port_id" id="portid">
                         <div class="row">
+                            <div class="mb-3">
+                                <label for="id_pengajuan" class="form-label">ID-Pengajuan</label>
+                                <input type="text" required value="{{old('id_pengajuan')}}" class="form-control @error('id_pengajuan') is-invalid @enderror" name="id_pengajuan" id="id_pengajuan" placeholder="FTTH-001">
+                                @error('id_pengajuan')
+                                <div id="labelODC" class="invalid-feedback mb-3">
+                                    {{$message}}
+                                </div>
+                                @enderror
+                            </div>
                             <div class="col">
                                 <div class="mb-3">
                                     <label for="usulan" class="form-label">Usulan</label>
@@ -583,7 +594,7 @@
                         <thead>
                             <tr>
                                 <th scope="col">Pengajuan</th>
-                                <th scope="col">Id-Pengajuan</th>
+                                <th scope="col">ID-Pengajuan</th>
                                 <th scope="col">Jenis Pembangunan</th>
                                 <th scope="col">Label ODP</th>
                                 <th scope="col">Label ODC</th>

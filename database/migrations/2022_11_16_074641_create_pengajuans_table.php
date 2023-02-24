@@ -14,7 +14,8 @@ class CreatePengajuansTable extends Migration
     public function up()
     {
         Schema::create('pengajuans', function (Blueprint $table) {
-            $table->uuid('id')->primary();
+            $table->id();
+            $table->string('id_pengajuan')->unique();
             $table->foreignId('id_slot');
             $table->foreignId('id_user');
             $table->integer('izin')->default('2');
